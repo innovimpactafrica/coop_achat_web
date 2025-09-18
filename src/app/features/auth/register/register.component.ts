@@ -137,6 +137,7 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
                 </div>
               </div>
             </div>
+            
 
             <!-- Entreprise -->
             <div>
