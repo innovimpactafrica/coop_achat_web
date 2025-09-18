@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "gestion-tache": {
+    "coopachatfrontend": {
       "projectType": "application",
       "schematics": {
         "schematics": {
@@ -74,10 +74,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "gestion-tache:build:production"
+              "buildTarget": "coopachatfrontend:build:production"
             },
             "development": {
-              "buildTarget": "gestion-tache:build:development"
+              "buildTarget": "coopachatfrontend:build:development"
             }
           },
           "defaultConfiguration": "development"

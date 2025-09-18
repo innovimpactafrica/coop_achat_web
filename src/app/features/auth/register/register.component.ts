@@ -1,225 +1,249 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NotificationModalComponent, NotificationStatus } from '../../../shared/ui/notification-modal/notification-modal.component';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NotificationModalComponent],
-  templateUrl: './register.component.html'
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  template: `
+    <div class="min-h-screen relative overflow-hidden"
+         style="background-image: url('/images/fond_ecran.png');">
+
+      <div class="h-full w-full flex items-center justify-center">          
+        <!-- Left Section - Form -->
+        <div class="w-1/2 h-full p-8 p-12 flex flex-col justify-center">
+          <!-- Logo -->
+          <div class="mb-8">
+            <img 
+              src="/images/logo.png" 
+              alt="Logo CoopAchat"
+              class="h-12 w-auto animate-float"
+            >
+          </div>
+
+          <!-- Title -->
+          <div class="mb-8">
+            <h1 class="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
+              Créer un compte
+            </h1>
+            <p class="text-gray-600 text-lg">
+              Inscrivez-vous pour accéder à votre espace personnel de gestion logistique
+            </p>
+          </div>
+
+          <!-- User Type Selection -->
+          <div class="mb-8">
+            <p class="text-gray-700 text-sm font-medium mb-4">Vous êtes ?</p>
+            <div class="grid grid-cols-2 gap-4">
+              <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-200"
+                     [class.border-orange-500]="registerForm.get('userType')?.value === 'commercial'"
+                     [class.bg-orange-50]="registerForm.get('userType')?.value === 'commercial'"
+                     [class.border-gray-200]="registerForm.get('userType')?.value !== 'commercial'">
+                <input 
+                  type="radio" 
+                  value="commercial"
+                  formControlName="userType"
+                  class="w-5 h-5 text-orange-600 bg-white border-2 border-gray-300 focus:ring-orange-500 focus:ring-2"
+                >
+                <span class="ml-3 text-gray-700 font-medium">Commercial</span>
+              </label>
+              
+              <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-200"
+                     [class.border-gray-400]="registerForm.get('userType')?.value === 'logistique'"
+                     [class.bg-gray-50]="registerForm.get('userType')?.value === 'logistique'"
+                     [class.border-gray-200]="registerForm.get('userType')?.value !== 'logistique'">
+                <input 
+                  type="radio" 
+                  value="logistique"
+                  formControlName="userType"
+                  class="w-5 h-5 text-gray-600 bg-white border-2 border-gray-300 focus:ring-gray-500 focus:ring-2"
+                >
+                <span class="ml-3 text-gray-700 font-medium">Logistique</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Form -->
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
+            <!-- Prénom et Nom -->
+            <div class="grid grid-cols-2 gap-6">
+              <div>
+                <label class="block text-gray-700 text-sm font-medium mb-3">
+                  Prénom <span class="text-red-500">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  formControlName="firstName"
+                  placeholder="Ex: Lamine"
+                  class="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:bg-white outline-none transition-all duration-200 text-gray-700 placeholder-gray-400"
+                >
+              </div>
+              
+              <div>
+                <label class="block text-gray-700 text-sm font-medium mb-3">
+                  Nom <span class="text-red-500">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  formControlName="lastName"
+                  placeholder="Ex: Ndiaye"
+                  class="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:bg-white outline-none transition-all duration-200 text-gray-700 placeholder-gray-400"
+                >
+              </div>
+            </div>
+
+            <!-- Email et Téléphone -->
+            <div class="grid grid-cols-2 gap-6">
+              <div>
+                <label class="block text-gray-700 text-sm font-medium mb-3">
+                  Adresse e-mail professionnelle <span class="text-red-500">*</span>
+                </label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M2 1H18C18.55 1 19 1.45 19 2V14C19 14.55 18.55 15 18 15H2C1.45 15 1 14.55 1 14V2C1 1.45 1.45 1 2 1Z" stroke="#ACB5BB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M1 2.5L10 8L19 2.5" stroke="#ACB5BB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                  </div>
+                  <input 
+                    type="email" 
+                    formControlName="email"
+                    placeholder="Ex: nom@entreprise.com"
+                    class="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:bg-white outline-none transition-all duration-200 text-gray-700 placeholder-gray-400"
+                  >
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-gray-700 text-sm font-medium mb-3">
+                  Numéro de téléphone <span class="text-red-500">*</span>
+                </label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M20.45 21C18.3667 21 16.3083 20.546 14.275 19.638C12.2417 18.73 10.3917 17.4423 8.725 15.775C7.05833 14.1077 5.771 12.2577 4.863 10.225C3.955 8.19233 3.50067 6.134 3.5 4.05C3.5 3.75 3.6 3.5 3.8 3.3C4 3.1 4.25 3 4.55 3H8.6C8.83333 3 9.04167 3.07933 9.225 3.238C9.40833 3.39667 9.51667 3.584 9.55 3.8L10.2 7.3C10.2333 7.56667 10.225 7.79167 10.175 7.975C10.125 8.15833 10.0333 8.31667 9.9 8.45L7.475 10.9C7.80833 11.5167 8.204 12.1123 8.662 12.687C9.12 13.2617 9.62433 13.816 10.175 14.35C10.6917 14.8667 11.2333 15.346 11.8 15.788C12.3667 16.23 12.9667 16.634 13.6 17L15.95 14.65C16.1 14.5 16.296 14.3877 16.538 14.313C16.78 14.2383 17.0173 14.2173 17.25 14.25L20.7 14.95C20.9333 15.0167 21.125 15.1377 21.275 15.313C21.425 15.4883 21.5 15.684 21.5 15.9V19.95C21.5 20.25 21.4 20.5 21.2 20.7C21 20.9 20.75 21 20.45 21ZM6.525 9L8.175 7.35L7.75 5H5.525C5.60833 5.68333 5.725 6.35833 5.875 7.025C6.025 7.69167 6.24167 8.35 6.525 9ZM15.475 17.95C16.125 18.2333 16.7877 18.4583 17.463 18.625C18.1383 18.7917 18.8173 18.9 19.5 18.95V16.75L17.15 16.275L15.475 17.95Z" fill="#ACB5BB"/>
+                      </svg>
+
+                  </div>
+                  <input 
+                    type="tel" 
+                    formControlName="phone"
+                    placeholder="Ex: 77 123 45 67"
+                    class="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:bg-white outline-none transition-all duration-200 text-gray-700 placeholder-gray-400"
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Entreprise -->
+            <div>
+              <label class="block text-gray-700 text-sm font-medium mb-3">
+                Entreprise / Entité <span class="text-red-500">*</span>
+              </label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.83371 0.5C10.2542 0.499867 10.6592 0.658672 10.9675 0.944581C11.2758 1.23049 11.4647 1.62237 11.4962 2.04167L11.5004 2.16667V5.5H14.0004C14.4209 5.49987 14.8259 5.65867 15.1342 5.94458C15.4425 6.23049 15.6313 6.62237 15.6629 7.04167L15.667 7.16667V13.8333H16.5004C16.7128 13.8336 16.9171 13.9149 17.0715 14.0607C17.226 14.2065 17.3189 14.4058 17.3314 14.6178C17.3438 14.8299 17.2748 15.0386 17.1385 15.2015C17.0022 15.3644 16.8088 15.4691 16.5979 15.4942L16.5004 15.5H1.50038C1.28798 15.4998 1.08369 15.4184 0.929239 15.2726C0.774792 15.1268 0.68185 14.9275 0.669402 14.7155C0.656955 14.5035 0.725941 14.2947 0.862266 14.1318C0.998591 13.9689 1.19197 13.8643 1.40288 13.8392L1.50038 13.8333H2.33371V2.16667C2.33358 1.74619 2.49238 1.34119 2.77829 1.03288C3.0642 0.724559 3.45608 0.535703 3.87538 0.504167L4.00038 0.5H9.83371ZM14.0004 7.16667H11.5004V13.8333H14.0004V7.16667ZM9.83371 2.16667H4.00038V13.8333H9.83371V2.16667ZM8.16705 10.5V12.1667H5.66705V10.5H8.16705ZM8.16705 7.16667V8.83333H5.66705V7.16667H8.16705ZM8.16705 3.83333V5.5H5.66705V3.83333H8.16705Z" fill="#9C9AA5"/>
+                            </svg>
+
+                </div>
+                <input 
+                  type="text" 
+                  formControlName="company"
+                  placeholder="Ex: Entreprise SA"
+                  class="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:bg-white outline-none transition-all duration-200 text-gray-700 placeholder-gray-400"
+                >
+              </div>
+            </div>
+
+            <button 
+              type="submit"
+              [disabled]="!registerForm.valid"
+              class="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-4 rounded-lg hover:from-orange-600 hover:to-orange-700 focus:ring-4 focus:ring-orange-200 font-medium text-lg transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            >
+              Créer un compte
+            </button>
+
+            <div class="text-center pt-4">
+              <span class="text-gray-600">Vous avez déjà un compte ? </span>
+              <a href="/login" class="text-orange-600 hover:text-orange-500 font-medium">Connectez-vous</a>
+            </div>
+          </form>
+        </div>
+
+        <!-- Right Section - Image -->
+        <div class="w-1/2 h-full relative flex items-center justify-center">
+          <img 
+            src="/images/image.png"
+            alt="Femmes faisant du shopping"
+            class="w-full h-full object-cover"
+          >
+        </div>
+      </div>
+    </div>
+  `,
+  styles: [`
+    .animate-float {
+      animation: float  ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+  `]
 })
-export class RegisterComponent implements OnInit {
-  registerForm!: FormGroup;
-  documentForm!: FormGroup;
-  currentStep = 1;
-  selectedFile: File | null = null;
-  maxFileSize = 10 * 1024 * 1024; // 10MB en bytes
-  
-  // Propriétés pour le modal de notification
-  isModalVisible = false;
-  modalStatus: NotificationStatus = 'success';
-  modalTitle = '';
-  modalDescription = '';
+export class RegisterComponent {
+  registerForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    this.initializeForms();
-  }
-
-  private initializeForms(): void {
-    // Formulaire étape 1 - Informations personnelles
+  constructor(private fb: FormBuilder, private router: Router) {
     this.registerForm = this.fb.group({
+      userType: ['commercial', [Validators.required]],
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
-      cabinet: [''],
-      email: ['', [Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9\s\+\-\(\)]{8,15}$/)]]
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, Validators.pattern(/^[+]?[0-9\s\-\(\)]{8,15}$/)]],
+      company: ['', [Validators.required, Validators.minLength(2)]]
     });
-
-    // Formulaire étape 2 - Document de l'ordre
-    this.documentForm = this.fb.group({
-      orderNumber: ['', [Validators.required]],
-      document: [null, [Validators.required]]
-    });
-  }
-
-  onContinue(): void {
-    if (this.registerForm.valid) {
-      this.currentStep = 2;
-    } else {
-      this.markFormGroupTouched(this.registerForm);
-    }
-  }
-
-  goBack(): void {
-    this.currentStep = 1;
-  }
-
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      
-      // Vérifier la taille du fichier
-      if (file.size > this.maxFileSize) {
-        alert('Le fichier est trop volumineux. La taille maximale autorisée est de 10MB.');
-        return;
-      }
-
-      // Vérifier le type de fichier
-      const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'application/pdf'];
-      if (!allowedTypes.includes(file.type)) {
-        alert('Type de fichier non autorisé. Seuls les fichiers PNG, JPG, JPEG et PDF sont acceptés.');
-        return;
-      }
-
-      this.selectedFile = file;
-      this.documentForm.patchValue({ document: file });
-      this.documentForm.get('document')?.markAsTouched();
-    }
-  }
-
-  removeFile(): void {
-    this.selectedFile = null;
-    this.documentForm.patchValue({ document: null });
-    this.documentForm.get('document')?.markAsTouched();
-  }
-
-  formatFileSize(bytes: number): string {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
 
   onSubmit(): void {
-    if (this.documentForm.valid && this.registerForm.valid) {
-      const registrationData = {
-        // Données de l'étape 1
-        firstName: this.registerForm.get('firstName')?.value,
-        lastName: this.registerForm.get('lastName')?.value,
-        cabinet: this.registerForm.get('cabinet')?.value,
-        email: this.registerForm.get('email')?.value,
-        phone: this.registerForm.get('phone')?.value,
-        
-        // Données de l'étape 2
-        orderNumber: this.documentForm.get('orderNumber')?.value,
-        document: this.selectedFile
-      };
-
-      console.log('Données d\'inscription:', registrationData);
-
-      // Ici vous pourriez appeler votre service d'inscription
-      this.submitRegistration(registrationData);
+  if (this.registerForm.valid) {
+    console.log('Form submitted:', this.registerForm.value);
     
-    } else {
-      this.markFormGroupTouched(this.documentForm);
-    }
-  }
-
-  private submitRegistration(data: any): void {
-    // Simulation d'un appel API
-    console.log('Envoi des données d\'inscription...', data);
+    // Simuler l'appel API d'inscription
+     // Si vous avez une propriété isLoading
     
-    // Créer FormData pour l'envoi du fichier
-    const formData = new FormData();
-    formData.append('firstName', data.firstName);
-    formData.append('lastName', data.lastName);
-    formData.append('cabinet', data.cabinet || '');
-    formData.append('email', data.email || '');
-    formData.append('phone', data.phone);
-    formData.append('orderNumber', data.orderNumber);
-    
-    if (data.document) {
-      formData.append('document', data.document);
-    }
-
-    // Simulation d'une réponse avec succès/échec aléatoire pour la démo
+    // Simuler un délai d'API (remplacez par votre vraie logique d'inscription)
     setTimeout(() => {
-      const isSuccess = Math.random() > 0.3; // 70% de chance de succès
       
-      if (isSuccess) {
-        // Succès
-        this.showNotificationModal(
-          'success',
-          'Inscription réussie !',
-          'Votre compte a été créé avec succès.'
-        );
-      } else {
-        // Échec
-        this.showNotificationModal(
-          'error',
-          'Erreur d\'inscription',
-          'Une erreur est survenue lors de la création de votre compte. Veuillez réessayer.'
-        );
-      }
-    }, 1500);
-
-    // Ici vous feriez l'appel HTTP vers votre backend
-    // this.registrationService.register(formData).subscribe({
-    //   next: (response) => {
-    //     this.showNotificationModal(
-    //       'success',
-    //       'Inscription réussie !',
-    //       'Votre compte a été créé avec succès.'
-    //     );
-    //   },
-    //   error: (error) => {
-    //     this.showNotificationModal(
-    //       'error',
-    //       'Erreur d\'inscription',
-    //       'Une erreur est survenue lors de la création de votre compte. Veuillez réessayer.'
-    //     );
-    //   }
-    // });
-  }
-
-  private showNotificationModal(status: NotificationStatus, title: string, description: string): void {
-    this.modalStatus = status;
-    this.modalTitle = title;
-    this.modalDescription = description;
-    this.isModalVisible = true;
-  }
-
-  onModalClosed(): void {
-    this.isModalVisible = false;
+      
+      // Après une inscription réussie, stocker l'email pour la page OTP
+      const email = this.registerForm.get('email')?.value;
+      
+      // Optionnel : stocker l'email dans le service/localStorage pour la page OTP
+      localStorage.setItem('verificationEmail', email);
+      
+      // Rediriger vers la page OTP
+      this.router.navigate(['/otp-verification'], {
+        queryParams: { 
+          email: email,
+          type: 'registration' // pour distinguer inscription vs reset password
+        }
+      });
+      
+    }, 2000); // Remplacez par votre vraie logique d'API
     
-    // Si c'est un succès, rediriger vers la page de connexion
-    if (this.modalStatus === 'success') {
-      setTimeout(() => {
-        this.router.navigate(['/login']);
-      }, 300);
-    }
-  }
-
-  navigateToLogin(): void {
-    this.router.navigate(['/login']);
-  }
-
-  private markFormGroupTouched(formGroup: FormGroup): void {
-    Object.keys(formGroup.controls).forEach(key => {
-      const control = formGroup.get(key);
+  } else {
+    console.log('Form is invalid');
+    // Marquer tous les champs comme touchés pour afficher les erreurs
+    Object.keys(this.registerForm.controls).forEach(key => {
+      const control = this.registerForm.get(key);
       control?.markAsTouched();
-      
-      if (control && typeof control === 'object' && 'controls' in control) {
-        this.markFormGroupTouched(control as FormGroup);
-      }
     });
   }
-
-  // Getters pour faciliter l'accès aux contrôles dans le template
-  get firstName() { return this.registerForm.get('firstName'); }
-  get lastName() { return this.registerForm.get('lastName'); }
-  get cabinet() { return this.registerForm.get('cabinet'); }
-  get email() { return this.registerForm.get('email'); }
-  get phone() { return this.registerForm.get('phone'); }
-  get orderNumber() { return this.documentForm.get('orderNumber'); }
-  get document() { return this.documentForm.get('document'); }
+}
 }

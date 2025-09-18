@@ -16,8 +16,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
       <div class="flex-1 flex flex-col lg:ml-64 transition-all duration-300">
         <!-- Header -->
         <app-header 
-          [pageTitle]="pageTitle"
-          class="sticky top-0 z-10 bg-[#F5F5F3] shadow-sm">
+          class="sticky top-0 z-10 bg-#FF6B00] shadow-sm">
         </app-header>
 
         <!-- Page Content -->
@@ -37,5 +36,4 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   `]
 })
 export class MainLayoutComponent {
-  @Input() pageTitle: string = 'Tableau de bord';
 }
