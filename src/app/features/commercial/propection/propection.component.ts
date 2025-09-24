@@ -24,11 +24,11 @@ interface Prospect {
   standalone: true,
   imports: [CommonModule, FormsModule, MainLayoutComponent, CompanyModalComponent],
   template: `
-    <app-main-layout>
-      <div class="min-h-screen">
+    <app-main-layout role="com">
+      <div class="min-h-screen p-4 lg:p-6">
         <!-- Header Section -->
-        <div class="px-6 py-6">
-          <div class="flex items-center justify-between mb-6">
+        <div class="mb-6">
+          <div class="flex items-center justify-between mb-4">
             <h1 class="text-2xl font-bold text-gray-900">Gestion des Prospections</h1>
             <button 
               class="bg-indigo-900 hover:bg-indigo-800 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-colors"
@@ -38,7 +38,7 @@ interface Prospect {
                 <path d="M3.48022 8H12.8136" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M8.14697 3.33337V12.6667" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              Nouvelle entreprise
+              <span class="ml-2">Nouvelle entreprise</span>
             </button>
           </div>
         </div>
@@ -51,12 +51,12 @@ interface Prospect {
         ></app-company-modal>
 
         <!-- Table Section -->
-        <div class="bg-white rounded-xl p-6">
+        <div class="bg-white rounded-xl p-4 lg:p-6">
           <!-- Search and Filters Section -->
           <div class="mb-6">
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
               <!-- Search Bar -->
-              <div class="flex-1 max-w-md">
+              <div class="flex-1 max-w-md w-full">
                 <input
                   type="text"
                   placeholder="Rechercher une entreprise..."
@@ -67,7 +67,7 @@ interface Prospect {
               </div>
 
               <!-- Filters -->
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-3 flex-wrap">
                 <!-- Filters Button -->
                 <button class="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors">
                   <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -80,7 +80,7 @@ interface Prospect {
                       </clipPath>
                     </defs>
                   </svg>
-                  Filtres
+                  <span class="ml-2">Filtres</span>
                 </button>
 
                 <!-- Status Filter -->
@@ -111,99 +111,156 @@ interface Prospect {
               </div>
             </div>
           </div>
+
+          <!-- Responsive container: Table for lg+, Cards for small -->
           <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-            <!-- Table Header -->
-            <div class="bg-gray-50 border-b border-gray-200">
-              <div class="px-6 py-4">
-                <div class="grid grid-cols-12 gap-4 text-sm font-semibold text-gray-700">
-                  <div class="col-span-2">Entreprise</div>
-                  <div class="col-span-2">Secteur</div>
-                  <div class="col-span-2">Localisation</div>
-                  <div class="col-span-2">Contact</div>
-                  <div class="col-span-2">Statut</div>
-                  <div class="col-span-1">Date</div>
-                  <div class="col-span-1">Actions</div>
+
+            <!-- Desktop / large screens TABLE -->
+            <div class="hidden lg:block">
+              <!-- Table Header - OUTSIDE the scroll container -->
+              <div class="bg-gray-50 border-b border-gray-200">
+                <div class="px-6 py-4">
+                  <div class="grid grid-cols-12 gap-4 text-sm font-semibold text-gray-700">
+                    <div class="col-span-2">Entreprise</div>
+                    <div class="col-span-2">Secteur</div>
+                    <div class="col-span-2">Localisation</div>
+                    <div class="col-span-2">Contact</div>
+                    <div class="col-span-2">Statut</div>
+                    <div class="col-span-1">Date</div>
+                    <div class="col-span-1">Actions</div>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Table Body -->
-            <div class="divide-y divide-gray-100">
-              <div 
-                *ngFor="let prospect of filteredProspects; trackBy: trackByProspect" 
-                class="px-6 py-4 hover:bg-gray-50 transition-colors duration-200"
-              >
-                <div class="grid grid-cols-12 gap-4 items-center">
-                  <!-- Entreprise -->
-                  <div class="col-span-2">
-                    <div class="font-medium text-gray-900 text-sm">{{ prospect.entreprise }}</div>
-                  </div>
-
-                  <!-- Secteur -->
-                  <div class="col-span-2">
-                    <span class="text-sm text-gray-600">{{ prospect.secteur }}</span>
-                  </div>
-
-                  <!-- Localisation -->
-                  <div class="col-span-2">
-                    <span class="text-sm text-gray-600">{{ prospect.localisation }}</span>
-                  </div>
-
-                  <!-- Contact -->
-                  <div class="col-span-2">
-                    <div class="text-sm">
-                      <div class="font-medium text-gray-900">{{ prospect.contact.nom }}</div>
-                      <div class="text-gray-500 text-xs">{{ prospect.contact.telephone }}</div>
-                    </div>
-                  </div>
-
-                  <!-- Statut -->
-                  <div class="col-span-2">
-                    <span 
-                      class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium"
-                      [style.background-color]="prospect.statutBgColor"
-                      [style.color]="prospect.statutColor"
+              <!-- Scrollable Table Body -->
+              <div class="overflow-x-auto">
+                <div class="min-w-full">
+                  <!-- Table Body -->
+                  <div class="divide-y divide-gray-100">
+                    <div 
+                      *ngFor="let prospect of getCurrentPageProspects(); trackBy: trackByProspect" 
+                      class="px-6 py-4 hover:bg-gray-50 transition-colors duration-200"
                     >
-                      {{ prospect.statut }}
-                    </span>
+                      <div class="grid grid-cols-12 gap-4 items-center">
+                        <!-- Entreprise -->
+                        <div class="col-span-2">
+                          <div class="font-medium text-gray-900 text-sm">{{ prospect.entreprise }}</div>
+                        </div>
+
+                        <!-- Secteur -->
+                        <div class="col-span-2">
+                          <span class="text-sm text-gray-600">{{ prospect.secteur }}</span>
+                        </div>
+
+                        <!-- Localisation -->
+                        <div class="col-span-2">
+                          <span class="text-sm text-gray-600">{{ prospect.localisation }}</span>
+                        </div>
+
+                        <!-- Contact -->
+                        <div class="col-span-2">
+                          <div class="text-sm">
+                            <div class="font-medium text-gray-900">{{ prospect.contact.nom }}</div>
+                            <div class="text-gray-500 text-xs">{{ prospect.contact.telephone }}</div>
+                          </div>
+                        </div>
+
+                        <!-- Statut -->
+                        <div class="col-span-2">
+                          <span 
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium"
+                            [style.background-color]="prospect.statutBgColor"
+                            [style.color]="prospect.statutColor"
+                          >
+                            {{ prospect.statut }}
+                          </span>
+                        </div>
+
+                        <!-- Date + Actions: unified flex container to ensure spacing -->
+                        <div class="col-span-2">
+                          <div class="flex items-center justify-between pr-4">
+                            <!-- Date -->
+                            <span class="text-sm text-gray-600">
+                              {{ prospect.date }}
+                            </span>
+
+                            <!-- Actions -->
+                            <div class="flex items-center gap-2">
+                              <button 
+                                class="text-gray-600 text-sm border border-gray-300 px-2 py-1.5 rounded-lg hover:bg-gray-50 transition-colors whitespace-nowrap ml-2"
+                                (click)="editProspect(prospect.id)"
+                              >
+                                Éditer
+                              </button>
+                              <button 
+                                class="bg-indigo-900 hover:bg-indigo-800 text-white text-sm px-3 py-1.5 rounded-lg font-medium transition-colors whitespace-nowrap"
+                                (click)="viewDetails(prospect.id)"
+                              >
+                                Détails
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Empty State for desktop -->
+              <div *ngIf="filteredProspects.length === 0" class="px-6 py-12 text-center">
+                <div class="text-gray-400 mb-4">
+                  <svg class="mx-auto h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun résultat trouvé</h3>
+                <p class="text-gray-600 text-sm">Essayez de modifier vos critères de recherche ou filtres.</p>
+              </div>
+            </div>
+
+            <!-- Mobile / small screens CARDS -->
+            <div class="block lg:hidden">
+              <div *ngIf="filteredProspects.length === 0" class="px-4 py-8 text-center">
+                <div class="text-gray-400 mb-4">
+                  <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <h3 class="text-base font-medium text-gray-900 mb-2">Aucun résultat trouvé</h3>
+                <p class="text-gray-600 text-sm">Essayez de modifier vos critères de recherche ou filtres.</p>
+              </div>
+
+              <div class="space-y-3 px-2">
+                <div *ngFor="let prospect of getCurrentPageProspects(); trackBy: trackByProspect" class="border border-gray-200 rounded-lg p-3 bg-white shadow-sm">
+                  <div class="flex items-start justify-between">
+                    <div>
+                      <div class="font-semibold text-sm text-gray-900">{{ prospect.entreprise }}</div>
+                      <div class="text-xs text-gray-500">{{ prospect.secteur }} • {{ prospect.localisation }}</div>
+                    </div>
+                    <div>
+                      <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium" [style.background-color]="prospect.statutBgColor" [style.color]="prospect.statutColor">{{ prospect.statut }}</span>
+                    </div>
                   </div>
 
-                  <!-- Date -->
-                  <div class="col-span-1">
-                    <span class="text-sm text-gray-600">{{ prospect.date }}</span>
-                  </div>
-
-                  <!-- Actions -->
-                  <div class="col-span-1">
-                    <div class="flex items-center gap-2">
-                      <button 
-                        class="text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors"
-                        (click)="editProspect(prospect.id)"
-                      >
-                        Éditer
-                      </button>
-                      <button 
-                        class="bg-indigo-900 hover:bg-indigo-800 text-white px-3 py-1 rounded text-xs font-medium transition-colors"
-                        (click)="viewDetails(prospect.id)"
-                      >
-                        Détails
-                      </button>
+                  <div class="mt-3 flex items-center justify-between text-xs text-gray-600">
+                    <div>
+                      <div class="font-medium text-gray-900">{{ prospect.contact.nom }}</div>
+                      <div class="text-gray-500">{{ prospect.contact.telephone }}</div>
+                    </div>
+                    <div class="text-right">
+                      <div class="text-gray-500 mb-2">{{ prospect.date }}</div>
+                      <div class="mt-2 flex gap-2 justify-end">
+                        <button class="text-blue-600 hover:text-blue-800 text-sm font-medium" (click)="editProspect(prospect.id)">Éditer</button>
+                        <button class="bg-indigo-900 hover:bg-indigo-800 text-white px-3 py-1 rounded text-xs font-medium" (click)="viewDetails(prospect.id)">Détails</button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Empty State -->
-            <div *ngIf="filteredProspects.length === 0" class="px-6 py-12 text-center">
-              <div class="text-gray-400 mb-4">
-                <svg class="mx-auto h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun résultat trouvé</h3>
-              <p class="text-gray-600 text-sm">Essayez de modifier vos critères de recherche ou filtres.</p>
-            </div>
           </div>
 
           <!-- Pagination Section -->
@@ -228,7 +285,7 @@ interface Prospect {
               <div class="flex items-center gap-1">
                 <button 
                   *ngFor="let page of getPageNumbers()" 
-                  class="w-10 h-10 text-sm font-medium rounded-lg transition-colors"
+                  class="w-9 h-9 md:w-10 md:h-10 text-sm font-medium rounded-lg transition-colors"
                   [class.bg-green-100]="page === currentPage"
                   [class.text-green-700]="page === currentPage"
                   [class.border]="page === currentPage"
@@ -277,6 +334,46 @@ interface Prospect {
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       transition-duration: 200ms;
     }
+
+    /* Scrollbar styles (applied to elements with overflow-x-auto) */
+    .overflow-x-auto {
+      scrollbar-width: thin;
+      scrollbar-color: #cbd5e1 #f8fafc;
+      position: relative;
+    }
+    
+    .overflow-x-auto::-webkit-scrollbar {
+      height: 8px;
+    }
+    
+    .overflow-x-auto::-webkit-scrollbar-track {
+      background: #f8fafc;
+      border-radius: 4px;
+    }
+    
+    .overflow-x-auto::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    
+    .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Responsive tweaks: ensure grids collapse nicely on small screens */
+    @media (max-width: 1024px) {
+      .grid-cols-12 { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+    }
+
+    /* Improve touch target sizes on small screens */
+    @media (max-width: 640px) {
+      button, .px-4, .py-2 {
+        min-height: 40px;
+      }
+    }
+
+    /* Ensure cards and table cells wrap text properly */
+    .whitespace-nowrap { white-space: nowrap; }
   `]
 })
 export class ProspectionComponent {
@@ -285,71 +382,39 @@ export class ProspectionComponent {
   selectedSector = '';
   currentPage = 1;
   itemsPerPage = 5;
-  totalResults = 12;
   isCompanyModalOpen = false;
 
   prospects: Prospect[] = [
-    {
-      id: 1,
-      entreprise: 'Entreprise LMN',
-      secteur: 'Technologie',
-      localisation: 'Paris',
-      contact: { nom: 'Marie Dupont', telephone: '01 23 45 67 89' },
-      statut: 'Intéressé',
-      statutColor: '#065f46',
-      statutBgColor: '#d1fae5',
-      date: '15/07/2023'
-    },
-    {
-      id: 2,
-      entreprise: 'Société PQR',
-      secteur: 'Santé',
-      localisation: 'Lyon',
-      contact: { nom: 'Jean Martin', telephone: '01 98 76 54 32' },
-      statut: 'À relancer',
-      statutColor: '#92400e',
-      statutBgColor: '#fef3c7',
-      date: '22/07/2023'
-    },
-    {
-      id: 3,
-      entreprise: 'Groupe 456',
-      secteur: 'Éducation',
-      localisation: 'Marseille',
-      contact: { nom: 'Sophie Lefebvre', telephone: '04 56 78 90 12' },
-      statut: 'Rendez-vous',
-      statutColor: '#1e40af',
-      statutBgColor: '#dbeafe',
-      date: '28/07/2023'
-    },
-    {
-      id: 4,
-      entreprise: 'Tech Innovate',
-      secteur: 'Technologie',
-      localisation: 'Toulouse',
-      contact: { nom: 'Pierre Durand', telephone: '05 43 21 98 76' },
-      statut: 'Refusé',
-      statutColor: '#dc2626',
-      statutBgColor: '#fee2e2',
-      date: '10/07/2023'
-    },
-    {
-      id: 5,
-      entreprise: 'Médical Plus',
-      secteur: 'Santé',
-      localisation: 'Bordeaux',
-      contact: { nom: 'Isabelle Moreau', telephone: '05 67 89 01 23' },
-      statut: 'Premier contact',
-      statutColor: '#7c3aed',
-      statutBgColor: '#ede9fe',
-      date: '05/07/2023'
-    }
+    { id: 1, entreprise: 'Entreprise LMN', secteur: 'Technologie', localisation: 'Paris', contact: { nom: 'Marie Dupont', telephone: '01 23 45 67 89' }, statut: 'Intéressé', statutColor: '#065f46', statutBgColor: '#d1fae5', date: '15/07/2023' },
+    { id: 2, entreprise: 'Société PQR', secteur: 'Santé', localisation: 'Lyon', contact: { nom: 'Jean Martin', telephone: '01 98 76 54 32' }, statut: 'À relancer', statutColor: '#92400e', statutBgColor: '#fef3c7', date: '22/07/2023' },
+    { id: 3, entreprise: 'Groupe 456', secteur: 'Éducation', localisation: 'Marseille', contact: { nom: 'Sophie Lefebvre', telephone: '04 56 78 90 12' }, statut: 'Rendez-vous', statutColor: '#1e40af', statutBgColor: '#dbeafe', date: '28/07/2023' },
+    { id: 4, entreprise: 'Tech Innovate', secteur: 'Technologie', localisation: 'Toulouse', contact: { nom: 'Pierre Durand', telephone: '05 43 21 98 76' }, statut: 'Refusé', statutColor: '#dc2626', statutBgColor: '#fee2e2', date: '10/07/2023' },
+    { id: 5, entreprise: 'Médical Plus', secteur: 'Santé', localisation: 'Bordeaux', contact: { nom: 'Isabelle Moreau', telephone: '05 67 89 01 23' }, statut: 'Premier contact', statutColor: '#7c3aed', statutBgColor: '#ede9fe', date: '05/07/2023' },
+    { id: 6, entreprise: 'StartupXYZ', secteur: 'Technologie', localisation: 'Nice', contact: { nom: 'Lucas Bernard', telephone: '04 93 12 34 56' }, statut: 'Intéressé', statutColor: '#065f46', statutBgColor: '#d1fae5', date: '01/08/2023' },
+    { id: 7, entreprise: 'Clinique Santé+', secteur: 'Santé', localisation: 'Strasbourg', contact: { nom: 'Dr. Anne Durand', telephone: '03 88 45 67 89' }, statut: 'Rendez-vous', statutColor: '#1e40af', statutBgColor: '#dbeafe', date: '12/08/2023' },
+    { id: 8, entreprise: 'École Future', secteur: 'Éducation', localisation: 'Nantes', contact: { nom: 'Marie-Claire Petit', telephone: '02 40 11 22 33' }, statut: 'Premier contact', statutColor: '#7c3aed', statutBgColor: '#ede9fe', date: '20/08/2023' },
+    { id: 9, entreprise: 'Digital Solutions', secteur: 'Technologie', localisation: 'Lille', contact: { nom: 'Thomas Leroy', telephone: '03 20 55 66 77' }, statut: 'À relancer', statutColor: '#92400e', statutBgColor: '#fef3c7', date: '25/08/2023' },
+    { id: 10, entreprise: 'Pharma Conseil', secteur: 'Santé', localisation: 'Montpellier', contact: { nom: 'Sylvie Roux', telephone: '04 67 89 12 34' }, statut: 'Refusé', statutColor: '#dc2626', statutBgColor: '#fee2e2', date: '30/08/2023' },
+    { id: 11, entreprise: 'Université Privée', secteur: 'Éducation', localisation: 'Rennes', contact: { nom: 'Prof. Michel Blanc', telephone: '02 99 44 55 66' }, statut: 'Intéressé', statutColor: '#065f46', statutBgColor: '#d1fae5', date: '05/09/2023' },
+    { id: 12, entreprise: 'Innovation Lab', secteur: 'Technologie', localisation: 'Grenoble', contact: { nom: 'Sarah Martin', telephone: '04 76 12 34 56' }, statut: 'Rendez-vous', statutColor: '#1e40af', statutBgColor: '#dbeafe', date: '10/09/2023' }
   ];
 
   filteredProspects: Prospect[] = [...this.prospects];
 
+  // totalResults is dynamic now
+  get totalResults(): number {
+    return this.filteredProspects.length;
+  }
+
   get totalPages(): number {
-    return Math.ceil(this.totalResults / this.itemsPerPage);
+    return Math.max(1, Math.ceil(this.totalResults / this.itemsPerPage));
+  }
+
+  // Retourne seulement les prospects de la page courante
+  getCurrentPageProspects(): Prospect[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.filteredProspects.slice(startIndex, endIndex);
   }
 
   trackByProspect(index: number, prospect: Prospect): number {
@@ -389,8 +454,7 @@ export class ProspectionComponent {
     }
 
     this.filteredProspects = filtered;
-    this.totalResults = filtered.length;
-    this.currentPage = 1;
+    this.currentPage = 1; // Reset à la première page après filtrage
   }
 
   editProspect(id: number): void {
@@ -404,7 +468,8 @@ export class ProspectionComponent {
   }
 
   getDisplayStart(): number {
-    return Math.min((this.currentPage - 1) * this.itemsPerPage + 1, this.totalResults);
+    if (this.totalResults === 0) return 0;
+    return (this.currentPage - 1) * this.itemsPerPage + 1;
   }
 
   getDisplayEnd(): number {

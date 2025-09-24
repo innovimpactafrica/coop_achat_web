@@ -3,20 +3,23 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
+type Role = 'log' | 'com' | 'admin' | 'commercial';
+
 @Component({
   selector: 'app-main-layout',
   standalone: true,
   imports: [CommonModule, HeaderComponent, SidebarComponent],
   template: `
     <div class="flex flex-col min-h-screen bg-[#F5F5F3]">
-      <!-- Sidebar -->
-      <app-sidebar class="lg:fixed lg:top-0 lg:left-0 lg:h-full"></app-sidebar>
+      <!-- Sidebar : on passe le role à la sidebar -->
+      <app-sidebar class="lg:fixed lg:top-0 lg:left-0 lg:h-full" [role]="normalizedRole"></app-sidebar>
 
       <!-- Main Content Area -->
       <div class="flex-1 flex flex-col lg:ml-64 transition-all duration-300">
-        <!-- Header -->
+        <!-- Header : on passe le role au header -->
         <app-header 
-          class="sticky top-0 z-10 bg-#FF6B00] shadow-sm">
+          class="sticky top-0 z-10" 
+          [role]="normalizedRole">
         </app-header>
 
         <!-- Page Content -->
@@ -36,4 +39,14 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   `]
 })
 export class MainLayoutComponent {
+  /** rôle reçu depuis le parent du layout (ou none) */
+  @Input() role?: Role;
+
+  /** on normalise ici pour accepter 'commercial' en alias et fallback sur 'log' */
+  get normalizedRole(): 'log' | 'com' | 'admin' {
+    if (!this.role) return 'log';
+    if (this.role === 'commercial') return 'com';
+    if (this.role === 'com' || this.role === 'log' || this.role === 'admin') return this.role;
+    return 'log';
+  }
 }

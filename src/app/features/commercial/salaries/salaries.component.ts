@@ -24,7 +24,7 @@ interface Employee {
     EmployeeModalComponent // Importez le composant modal
   ],
   template: `
-    <app-main-layout>
+    <app-main-layout role="com">
       <div class="bg-white rounded-lg shadow-sm">
         <!-- Header Section -->
         <div class="p-6 border-b border-gray-200">
@@ -135,29 +135,29 @@ interface Employee {
                   {{ employee.entreprise }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <span 
-                    class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
+                 <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap"
                     [ngClass]="{
                       'bg-green-100 text-green-800': employee.statut === 'Actif',
                       'bg-yellow-100 text-yellow-800': employee.statut === 'En attente',
                       'bg-red-100 text-red-800': employee.statut === 'Inactif'
                     }"
-                  > 
+                  >
                     <img
-                      class="w-5 h-5 rounded-full mr-2"
+                      class="w-5 h-5 flex-shrink-0"
                       [src]="employee.statut === 'Actif' ? '/icones/actif.svg' :
                               employee.statut === 'En attente' ? '/icones/attente.svg' :
                               '/icones/inactif.svg'"
                       alt="Statut"
                     />
-                    {{ employee.statut }}
-                  </span>
+                    <span class="leading-none">{{ employee.statut }}</span>
+                  </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                   {{ employee.dateInscription }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                  <div class="flex items-center gap-2">
+                  <div class="flex items-center justify-end gap-2">
                     <button 
                       *ngIf="employee.statut === 'En attente'"
                       class="flex items-center px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors"

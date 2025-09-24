@@ -35,7 +35,7 @@ interface GeneralInfo {
   standalone: true,
   imports: [CommonModule, MainLayoutComponent],
   template: `
-    <app-main-layout>
+    <app-main-layout role="com">
       <div class="space-y-6">
         <!-- Header avec filtres -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
@@ -104,7 +104,7 @@ interface GeneralInfo {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <!-- Évolution des ventes -->
           <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Évolution des ventes</h3>
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-4">Évolution des ventes</h3>
             <div class="h-80">
               <canvas #salesChart></canvas>
             </div>
@@ -112,7 +112,7 @@ interface GeneralInfo {
 
           <!-- Nombre de commandes -->
           <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Nombre de commandes</h3>
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-4">Nombre de commandes</h3>
             <div class="h-80">
               <canvas #ordersChart></canvas>
             </div>
@@ -120,10 +120,11 @@ interface GeneralInfo {
         </div>
 
         <!-- Section Détails et Analyse -->
-        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <h2 class="text-xl font-semibold text-gray-900 mb-6">Détails et Analyse</h2>
-          
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100">
+           <div class="border-b border-gray-200 pb-4">
+               <h2 class="text-lg sm:text-xl font-semibold text-gray-900">Détails et Analyse</h2>
+            </div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
             <!-- Informations générales -->
             <div>
               <h3 class="text-lg font-medium text-gray-900 mb-4">Informations générales</h3>
@@ -278,6 +279,64 @@ export class SalesStatisticsComponent implements OnInit, OnDestroy {
     console.log('Analyse du potentiel en cours...');
   }
 
+  // Méthode pour créer l'icône SVG personnalisée
+  private createSVGIcon(): HTMLCanvasElement {
+  const canvas = document.createElement('canvas');
+  canvas.width = 15;
+  canvas.height = 15;
+  const ctx = canvas.getContext('2d')!;
+
+  ctx.strokeStyle = 'black';
+  ctx.lineWidth = 1; // ton SVG a une largeur fine
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  ctx.beginPath();
+
+  // Partie gauche : ligne horizontale
+  ctx.moveTo(0.654785, 7.78902);
+  ctx.lineTo(5.32145, 7.78902);
+
+  // Courbe centrale (approximation par arcs)
+  // Haut de l’ellipse
+  ctx.moveTo(5.32145, 7.78902);
+  ctx.bezierCurveTo(
+    5.32145, 6.5, // point de contrôle gauche
+    6.8, 5.45569, // point de contrôle haut
+    7.65479, 5.45569 // sommet haut
+  );
+
+  // Symétrie vers la droite
+  ctx.bezierCurveTo(
+    8.5, 5.45569, // contrôle haut droit
+    9.98812, 6.5, // contrôle descente
+    9.98812, 7.78902 // bas droit
+  );
+
+  // Partie basse de l’ellipse
+  ctx.moveTo(5.32145, 7.78902);
+  ctx.bezierCurveTo(
+    5.32145, 9, // contrôle bas gauche
+    6.8, 10.1224, // contrôle bas
+    7.65479, 10.1224 // bas centre
+  );
+
+  ctx.bezierCurveTo(
+    8.5, 10.1224, // contrôle bas droit
+    9.98812, 9, // remontée
+    9.98812, 7.78902 // retour au centre
+  );
+
+  // Partie droite : ligne horizontale
+  ctx.moveTo(9.98812, 7.78902);
+  ctx.lineTo(14.6548, 7.78902);
+
+  ctx.stroke();
+
+  return canvas;
+}
+
+
   private initSalesChart() {
     if (!this.salesChartRef?.nativeElement) {
       console.error('Canvas element not found for sales chart');
@@ -304,11 +363,11 @@ export class SalesStatisticsComponent implements OnInit, OnDestroy {
           data: this.salesData.map(d => d.amount),
           borderColor: '#6366F1',
           backgroundColor: 'transparent',
-          borderWidth: 2,
-          pointBackgroundColor: '#6366F1',
-          pointBorderColor: '#ffffff',
-          pointBorderWidth: 2,
-          pointRadius: 5,
+          borderWidth: 1,
+          pointBackgroundColor: '#ffffffff',
+          pointBorderColor: '#002cf1ff',
+          pointBorderWidth: 1,
+          pointRadius: 4,
           tension: 0.4,
           fill: false
         }]
@@ -323,7 +382,10 @@ export class SalesStatisticsComponent implements OnInit, OnDestroy {
             labels: {
               color: '#6366F1',
               usePointStyle: true,
-              padding: 20
+              padding: 20,
+              pointStyle: this.createSVGIcon(), // Utiliser l'icône SVG personnalisée
+              boxWidth: 17,
+              boxHeight: 16
             }
           }
         },
@@ -353,7 +415,7 @@ export class SalesStatisticsComponent implements OnInit, OnDestroy {
         },
         elements: {
           point: {
-            hoverRadius: 8
+            hoverRadius: 7,
           }
         }
       }
@@ -378,55 +440,71 @@ export class SalesStatisticsComponent implements OnInit, OnDestroy {
     }
 
     this.ordersChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: this.ordersData.map(d => d.month),
-        datasets: [{
-          label: 'Commandes',
-          data: this.ordersData.map(d => d.orders),
-          backgroundColor: '#6366F1',
-          borderColor: '#6366F1',
-          borderWidth: 0,
-          borderRadius: 4,
-          borderSkipped: false,
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'bottom',
-            labels: {
-              color: '#6366F1',
-              usePointStyle: true,
-              padding: 20
-            }
-          }
-        },
-        scales: {
-          x: {
-            grid: {
-              display: false
-            },
-            ticks: {
-              color: '#6b7280'
-            }
-          },
-          y: {
-            grid: {
-              display: true,
-              color: '#f3f4f6'
-            },
-            ticks: {
-              color: '#6b7280'
-            },
-            beginAtZero: true
+  type: 'bar',
+  data: {
+    labels: this.ordersData.map(d => d.month),
+    datasets: [{
+      label: 'Commandes',
+      data: this.ordersData.map(d => d.orders),
+      backgroundColor: '#6366F1',
+      // ON ENLEVE la bordure sur les barres :
+      // borderColor: '#000000',
+      // borderWidth: 2,
+      borderRadius: 0,
+      borderSkipped: false,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: {
+      intersect: false,
+      mode: 'index'
+    },
+    plugins: {
+      legend: {
+  display: true,
+  position: 'bottom',
+  labels: {
+    color: '#6366F1',
+    padding: 20,
+    font: { size: 13, weight: '500' },
+    boxWidth: 20,
+    boxHeight: 12,
+
+    // On génère manuellement les vignettes carrées avec bordure
+    generateLabels: function(chart) {
+      const datasets = chart.data.datasets;
+      return datasets.map((dataset: any, i: number) => ({
+        text: dataset.label,
+        fillStyle: Array.isArray(dataset.backgroundColor) ? dataset.backgroundColor[0] : dataset.backgroundColor,
+        strokeStyle: '#000000',  // Bordure noire
+        lineWidth: 2,            // Épaisseur bordure
+        hidden: !chart.isDatasetVisible(i),
+        datasetIndex: i
+      }));
+    }
+  }
+},
+
+
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
+        borderColor: '#6b7280',
+        borderWidth: 1,
+        displayColors: false,
+        callbacks: {
+          label: function(context) {
+            return 'Commandes: ' + context.parsed.y.toLocaleString();
           }
         }
       }
-    });
+    }
+  }
+});
+
   }
 }
 

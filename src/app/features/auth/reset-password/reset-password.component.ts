@@ -231,7 +231,7 @@ export class ResetPasswordComponent implements OnInit {
     if (password.length >= 8 && /[A-Z]/.test(password) && /[0-9]/.test(password) && /[!@#$%^&*]/.test(password)) {
       return 'strong';
     }
-    
+      
     return 'medium';
   }
 }

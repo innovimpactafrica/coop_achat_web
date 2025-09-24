@@ -21,7 +21,7 @@ interface Promotion {
   standalone: true,
   imports: [CommonModule, FormsModule, MainLayoutComponent, CouponModalComponent],
   template: `
-    <app-main-layout>
+    <app-main-layout role="com">
       <div class="bg-white rounded-lg shadow-sm">
         <!-- Header Section -->
         <div class="p-6 border-b border-gray-200">
@@ -44,8 +44,8 @@ interface Promotion {
             <div class=" bg-gray-50 p-4 rounded-lg">
               <div class="flex items-center justify-between">
                 <div>
-                  <p class="text-sm text-green-600 mb-1 font-medium">Promotions actives</p>
-                  <p class="text-3xl font-bold text-green-800">{{ getActivePromotions() }}</p>
+                  <p class="text-xs mb-1">Promotions actives</p>
+                  <p class="text-3xl font-bold">{{ getActivePromotions() }}</p>
                 </div>
                 <div class="w-10 h-10 bg-green-200 rounded-full flex items-center justify-center">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -59,8 +59,8 @@ interface Promotion {
             <div class="bg-gray-50 p-4 rounded-lg">
               <div class="flex items-center justify-between">
                 <div>
-                  <p class="text-sm text-blue-600 mb-1 font-medium">Utilisations totales</p>
-                  <p class="text-3xl font-bold text-blue-800">{{ getTotalUtilisations() }}</p>
+                  <p class="text-xs mb-1">Utilisations totales</p>
+                  <p class="text-3xl font-bold">{{ getTotalUtilisations() }}</p>
                 </div>
                 <div class="w-10 h-10 bg-blue-200 rounded-full flex items-center justify-center">
                   <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -75,8 +75,8 @@ interface Promotion {
             <div class="bg-gray-50 p-4 rounded-lg ">
               <div class="flex items-center justify-between">
                 <div>
-                  <p class="text-sm text-purple-600 mb-1 font-medium">Montant généré</p>
-                  <p class="text-3xl font-bold text-purple-800">{{ getTotalMontant() }}</p>
+                  <p class="text-xs mb-1">Montant généré</p>
+                  <p class="text-3xl font-bold">{{ getTotalMontant() }}</p>
                 </div>
                 <div class="w-10 h-10 bg-purple-200 rounded-full flex items-center justify-center">
                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -91,8 +91,8 @@ interface Promotion {
             <div class=" bg-gray-50 p-4 rounded-lg">
               <div class="flex items-center justify-between">
                 <div>
-                  <p class="text-sm text-orange-600 mb-1 font-medium">Panier moyen</p>
-                  <p class="text-3xl font-bold text-orange-800">{{ getPanierMoyen() }}</p>
+                  <p class="text-xs mb-1">Panier moyen</p>
+                  <p class="text-3xl font-bold">{{ getPanierMoyen() }}</p>
                 </div>
                 <div class="w-10 h-10 bg-orange-200 rounded-full flex items-center justify-center">
                   <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -158,12 +158,20 @@ interface Promotion {
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                   {{ promotion.produits }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                  {{ promotion.validite }}
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600"    >
+                  <span class="inline-flex">
+                    <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M5.51172 1.33337V4.00004" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M10.8447 1.33337V4.00004" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M12.8449 2.66663H3.51156C2.77518 2.66663 2.17822 3.26358 2.17822 3.99996V13.3333C2.17822 14.0697 2.77518 14.6666 3.51156 14.6666H12.8449C13.5813 14.6666 14.1782 14.0697 14.1782 13.3333V3.99996C14.1782 3.26358 13.5813 2.66663 12.8449 2.66663Z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M2.17822 6.66663H14.1782" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                    </span>
+                {{ promotion.validite }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span 
-                    class="relative flex items-center p-1 rounded-full text-xs font-medium"
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap"
                     [ngClass]="{
                       'bg-green-100 text-green-800': promotion.statut === 'Actif',
                       'bg-red-100 text-red-800': promotion.statut === 'Expiré',
@@ -171,7 +179,7 @@ interface Promotion {
                     }"
                   >
                     <img 
-                      class="w-5 h-5 rounded-full mr-2"
+                      class="w-5 h-5 flex-shrink-0"
                       [src]="promotion.icon"
                     >
                     {{ promotion.statut }}
@@ -183,23 +191,39 @@ interface Promotion {
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                   {{ promotion.montantGenere }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                <td class="flex gap-2 px-6 py-4 whitespace-nowrap text-sm text-gray-600 justify-end">
                   <button 
                     (click)="viewDetails(promotion.id)"
-                    class="flex items-center gap-2 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors"
+                    class="flex items-center gap-2 px-3 py-1.5 border hover:bg-gray-200 text-gray-700 rounded-lg transition-colors"
                   >
+                  
                     <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_44_1067)">
-<path d="M1.19491 7.70297C1.14629 7.572 1.14629 7.42793 1.19491 7.29697C1.6684 6.14888 2.47213 5.16724 3.50419 4.47649C4.53626 3.78574 5.75018 3.41699 6.99208 3.41699C8.23397 3.41699 9.44789 3.78574 10.48 4.47649C11.512 5.16724 12.3157 6.14888 12.7892 7.29697C12.8379 7.42793 12.8379 7.572 12.7892 7.70297C12.3157 8.85105 11.512 9.83269 10.48 10.5234C9.44789 11.2142 8.23397 11.5829 6.99208 11.5829C5.75018 11.5829 4.53626 11.2142 3.50419 10.5234C2.47213 9.83269 1.6684 8.85105 1.19491 7.70297Z" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M6.99219 9.25C7.95869 9.25 8.74219 8.4665 8.74219 7.5C8.74219 6.5335 7.95869 5.75 6.99219 5.75C6.02569 5.75 5.24219 6.5335 5.24219 7.5C5.24219 8.4665 6.02569 9.25 6.99219 9.25Z" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</g>
-<defs>
-<clipPath id="clip0_44_1067">
-<rect width="14" height="14" fill="white" transform="translate(-0.0078125 0.5)"/>
-</clipPath>
-</defs>
-</svg>
+                      <g clip-path="url(#clip0_44_1067)">
+                      <path d="M1.19491 7.70297C1.14629 7.572 1.14629 7.42793 1.19491 7.29697C1.6684 6.14888 2.47213 5.16724 3.50419 4.47649C4.53626 3.78574 5.75018 3.41699 6.99208 3.41699C8.23397 3.41699 9.44789 3.78574 10.48 4.47649C11.512 5.16724 12.3157 6.14888 12.7892 7.29697C12.8379 7.42793 12.8379 7.572 12.7892 7.70297C12.3157 8.85105 11.512 9.83269 10.48 10.5234C9.44789 11.2142 8.23397 11.5829 6.99208 11.5829C5.75018 11.5829 4.53626 11.2142 3.50419 10.5234C2.47213 9.83269 1.6684 8.85105 1.19491 7.70297Z" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M6.99219 9.25C7.95869 9.25 8.74219 8.4665 8.74219 7.5C8.74219 6.5335 7.95869 5.75 6.99219 5.75C6.02569 5.75 5.24219 6.5335 5.24219 7.5C5.24219 8.4665 6.02569 9.25 6.99219 9.25Z" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </g>
+                      <defs>
+                      <clipPath id="clip0_44_1067">
+                      <rect width="14" height="14" fill="white" transform="translate(-0.0078125 0.5)"/>
+                      </clipPath>
+                      </defs>
+                    </svg>
                     Détails
+                  </button>
+                  <button 
+                    *ngIf="promotion.statut === 'Actif'"
+                    (click)="togglePromotionStatus(promotion.id, 'desactiver')"
+                    class="bg-[#2C2D5B] hover:bg-[#24254F] text-white px-4 py-2 rounded-lg"
+                  >
+                    Désactiver
+                  </button>
+                  
+                  <button 
+                    *ngIf="promotion.statut === 'Planifié'"
+                    (click)="togglePromotionStatus(promotion.id, 'activer')"
+                    class="bg-[#2C2D5B] hover:bg-[#24254F] text-white px-4 py-2 rounded-lg"
+                  >
+                    Activer
                   </button>
                 </td>
               </tr>
@@ -235,79 +259,84 @@ interface Promotion {
           </div>
         </div>
       </div>
-<div class="bg-gray-50 rounded-lg p-6 mt-6 border border-gray-200">
-      <h3 class="text-lg font-semibold text-gray-900 mb-6">Guide d'utilisation des coupons</h3>
-      
-      <div class="space-y-6">
-        <!-- Visibilité pour les salariés -->
-        <div class="flex items-start space-x-4">
-          <div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M13.3334 17.5V15.8333C13.3334 14.9493 12.9822 14.1014 12.3571 13.4763C11.732 12.8512 10.8841 12.5 10.0001 12.5H5.00008C4.11603 12.5 3.26818 12.8512 2.64306 13.4763C2.01794 14.1014 1.66675 14.9493 1.66675 15.8333V17.5" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M13.3333 2.60645C14.048 2.79175 14.6811 3.20917 15.133 3.79316C15.5849 4.37716 15.8301 5.09469 15.8301 5.83311C15.8301 6.57154 15.5849 7.28906 15.133 7.87306C14.6811 8.45706 14.048 8.87447 13.3333 9.05978" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M18.3333 17.5001V15.8334C18.3327 15.0948 18.0869 14.3774 17.6344 13.7937C17.1819 13.2099 16.5484 12.793 15.8333 12.6084" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M7.50008 9.16667C9.34103 9.16667 10.8334 7.67428 10.8334 5.83333C10.8334 3.99238 9.34103 2.5 7.50008 2.5C5.65913 2.5 4.16675 3.99238 4.16675 5.83333C4.16675 7.67428 5.65913 9.16667 7.50008 9.16667Z" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-          </div>
-          <div class="flex-1">
-            <h4 class="text-base font-medium text-gray-900 mb-2">Visibilité pour les salariés</h4>
-            <p class="text-sm text-gray-600 leading-relaxed">
-              Une fois activé, le coupon est automatiquement visible par les salariés dans leur espace personnel, dans la section "Coupons".
-            </p>
-          </div>
-        </div>
-
-        <!-- Application lors de la commande -->
-        <div class="flex items-start space-x-4">
-          <div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_44_1143)">
-<path d="M6.66659 18.3332C7.12682 18.3332 7.49992 17.9601 7.49992 17.4998C7.49992 17.0396 7.12682 16.6665 6.66659 16.6665C6.20635 16.6665 5.83325 17.0396 5.83325 17.4998C5.83325 17.9601 6.20635 18.3332 6.66659 18.3332Z" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M15.8333 18.3332C16.2936 18.3332 16.6667 17.9601 16.6667 17.4998C16.6667 17.0396 16.2936 16.6665 15.8333 16.6665C15.3731 16.6665 15 17.0396 15 17.4998C15 17.9601 15.3731 18.3332 15.8333 18.3332Z" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M1.70825 1.7085H3.37492L5.59159 12.0585C5.6729 12.4375 5.88381 12.7764 6.18801 13.0167C6.49221 13.257 6.87067 13.3838 7.25825 13.3752H15.4083C15.7876 13.3745 16.1553 13.2446 16.4508 13.0067C16.7462 12.7688 16.9517 12.4373 17.0333 12.0668L18.4083 5.87516H4.26659" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</g>
-<defs>
-<clipPath id="clip0_44_1143">
-<rect width="20" height="20" fill="white"/>
-</clipPath>
-</defs>
-</svg>
-
-          </div>
-          <div class="flex-1">
-            <h4 class="text-base font-medium text-gray-900 mb-2">Application lors de la commande</h4>
-            <p class="text-sm text-gray-600 leading-relaxed">
-              Lorsqu'un salarié passe une commande, il peut saisir manuellement le code du coupon ou cliquer sur un bouton "Appliquer" si le coupon est proposé automatiquement. Le montant total de la commande est mis à jour avec la réduction de 5%, visible avant validation du paiement.
-            </p>
-          </div>
-        </div>
-
-        <!-- Suivi des performances -->
-        <div class="flex items-start space-x-4">
-          <div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g clip-path="url(#clip0_44_1155)">
-              <path d="M10.4884 2.15484C10.1759 1.84225 9.75207 1.6666 9.31008 1.6665H3.33341C2.89139 1.6665 2.46746 1.8421 2.1549 2.15466C1.84234 2.46722 1.66675 2.89114 1.66675 3.33317V9.30984C1.66684 9.75183 1.8425 10.1757 2.15508 10.4882L9.40842 17.7415C9.78718 18.1179 10.2995 18.3291 10.8334 18.3291C11.3674 18.3291 11.8797 18.1179 12.2584 17.7415L17.7417 12.2582C18.1181 11.8794 18.3294 11.3671 18.3294 10.8332C18.3294 10.2992 18.1181 9.78693 17.7417 9.40817L10.4884 2.15484Z" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M6.24992 6.66683C6.48004 6.66683 6.66659 6.48028 6.66659 6.25016C6.66659 6.02004 6.48004 5.8335 6.24992 5.8335C6.0198 5.8335 5.83325 6.02004 5.83325 6.25016C5.83325 6.48028 6.0198 6.66683 6.24992 6.66683Z" fill="black" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </g>
-              <defs>
-              <clipPath id="clip0_44_1155">
-              <rect width="20" height="20" fill="white"/>
-              </clipPath>
-              </defs>
-              </svg>
-
-          </div>
-          <div class="flex-1">
-            <h4 class="text-base font-medium text-gray-900 mb-2">Suivi des performances</h4>
-            <p class="text-sm text-gray-600 leading-relaxed">
-              Vous pouvez suivre les performances du coupon depuis votre tableau de bord : nombre d'utilisations, montant total généré via ce coupon, et panier moyen des commandes avec coupon.
-            </p>
-          </div>
-        </div>
+    <div class="bg-gray-50 rounded-lg p-6 mt-6 border border-gray-200 shadow-sm w-full">
+  <!-- Titre avec wrapper -->
+  <div class="w-full pb-2 border-b border-gray-200 mb-6">
+    <h3 class="text-lg font-semibold text-gray-900">
+      Guide d'utilisation des coupons
+    </h3>
+  </div>
+  <div class="space-y-6">
+    <!-- Visibilité pour les salariés -->
+    <div class="flex items-start space-x-4">
+      <div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+        <!-- icône -->
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13.3334 17.5V15.8333C13.3334 14.9493 12.9822 14.1014 12.3571 13.4763C11.732 12.8512 10.8841 12.5 10.0001 12.5H5.00008C4.11603 12.5 3.26818 12.8512 2.64306 13.4763C2.01794 14.1014 1.66675 14.9493 1.66675 15.8333V17.5" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M13.3333 2.60645C14.048 2.79175 14.6811 3.20917 15.133 3.79316C15.5849 4.37716 15.8301 5.09469 15.8301 5.83311C15.8301 6.57154 15.5849 7.28906 15.133 7.87306C14.6811 8.45706 14.048 8.87447 13.3333 9.05978" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18.3333 17.5001V15.8334C18.3327 15.0948 18.0869 14.3774 17.6344 13.7937C17.1819 13.2099 16.5484 12.793 15.8333 12.6084" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M7.50008 9.16667C9.34103 9.16667 10.8334 7.67428 10.8334 5.83333C10.8334 3.99238 9.34103 2.5 7.50008 2.5C5.65913 2.5 4.16675 3.99238 4.16675 5.83333C4.16675 7.67428 5.65913 9.16667 7.50008 9.16667Z" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="flex-1">
+        <h4 class="text-base font-medium text-gray-900 mb-2">Visibilité pour les salariés</h4>
+        <p class="text-sm text-gray-600 leading-relaxed">
+          Une fois activé, le coupon est automatiquement visible par les salariés dans leur espace personnel, dans la section "Coupons".
+        </p>
       </div>
     </div>
+
+    <!-- Application lors de la commande -->
+    <div class="flex items-start space-x-4">
+      <div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+        <!-- icône -->
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_44_1143)">
+            <path d="M6.66659 18.3332C7.12682 18.3332 7.49992 17.9601 7.49992 17.4998C7.49992 17.0396 7.12682 16.6665 6.66659 16.6665C6.20635 16.6665 5.83325 17.0396 5.83325 17.4998C5.83325 17.9601 6.20635 18.3332 6.66659 18.3332Z" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M15.8333 18.3332C16.2936 18.3332 16.6667 17.9601 16.6667 17.4998C16.6667 17.0396 16.2936 16.6665 15.8333 16.6665C15.3731 16.6665 15 17.0396 15 17.4998C15 17.9601 15.3731 18.3332 15.8333 18.3332Z" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M1.70825 1.7085H3.37492L5.59159 12.0585C5.6729 12.4375 5.88381 12.7764 6.18801 13.0167C6.49221 13.257 6.87067 13.3838 7.25825 13.3752H15.4083C15.7876 13.3745 16.1553 13.2446 16.4508 13.0067C16.7462 12.7688 16.9517 12.4373 17.0333 12.0668L18.4083 5.87516H4.26659" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+          <defs>
+            <clipPath id="clip0_44_1143">
+              <rect width="20" height="20" fill="white"/>
+            </clipPath>
+          </defs>
+        </svg>
+      </div>
+      <div class="flex-1">
+        <h4 class="text-base font-medium text-gray-900 mb-2">Application lors de la commande</h4>
+        <p class="text-sm text-gray-600 leading-relaxed">
+          Lorsqu'un salarié passe une commande, il peut saisir manuellement le code du coupon ou cliquer sur un bouton "Appliquer" si le coupon est proposé automatiquement. Le montant total de la commande est mis à jour avec la réduction de 5%, visible avant validation du paiement.
+        </p>
+      </div>
+    </div>
+
+    <!-- Suivi des performances -->
+    <div class="flex items-start space-x-4">
+      <div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+        <!-- icône -->
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_44_1155)">
+            <path d="M10.4884 2.15484C10.1759 1.84225 9.75207 1.6666 9.31008 1.6665H3.33341C2.89139 1.6665 2.46746 1.8421 2.1549 2.15466C1.84234 2.46722 1.66675 2.89114 1.66675 3.33317V9.30984C1.66684 9.75183 1.8425 10.1757 2.15508 10.4882L9.40842 17.7415C9.78718 18.1179 10.2995 18.3291 10.8334 18.3291C11.3674 18.3291 11.8797 18.1179 12.2584 17.7415L17.7417 12.2582C18.1181 11.8794 18.3294 11.3671 18.3294 10.8332C18.3294 10.2992 18.1181 9.78693 17.7417 9.40817L10.4884 2.15484Z" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6.24992 6.66683C6.48004 6.66683 6.66659 6.48028 6.66659 6.25016C6.66659 6.02004 6.48004 5.8335 6.24992 5.8335C6.0198 5.8335 5.83325 6.02004 5.83325 6.25016C5.83325 6.48028 6.0198 6.66683 6.24992 6.66683Z" fill="black" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+          <defs>
+            <clipPath id="clip0_44_1155">
+              <rect width="20" height="20" fill="white"/>
+            </clipPath>
+          </defs>
+        </svg>
+      </div>
+      <div class="flex-1">
+        <h4 class="text-base font-medium text-gray-900 mb-2">Suivi des performances</h4>
+        <p class="text-sm text-gray-600 leading-relaxed">
+          Vous pouvez suivre les performances du coupon depuis votre tableau de bord : nombre d'utilisations, montant total généré via ce coupon, et panier moyen des commandes avec coupon.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
       <!-- Modal de création de coupon -->
       <app-coupon-modal
         [isOpen]="isModalOpen"
@@ -319,12 +348,13 @@ interface Promotion {
   `
 })
 export class PromotionsManagementComponent {
+
   searchTerm: string = '';
   selectedStatusFilter: string = '';
   currentPage: number = 1;
   itemsPerPage: number = 4;
   Math = Math;
-  
+
   // Propriétés pour le modal
   isModalOpen: boolean = false;
   isSubmitting: boolean = false;
@@ -393,11 +423,11 @@ export class PromotionsManagementComponent {
 
   onSubmitCoupon(couponData: CouponFormData): void {
     this.isSubmitting = true;
-    
+
     // Simuler un appel API
     setTimeout(() => {
       console.log('Nouveau coupon créé:', couponData);
-      
+
       // Créer une nouvelle promotion à partir des données du formulaire
       const newPromotion: Promotion = {
         id: this.promotions.length + 1,
@@ -414,11 +444,11 @@ export class PromotionsManagementComponent {
       // Ajouter la nouvelle promotion
       this.promotions.push(newPromotion);
       this.filterPromotions();
-      
+
       // Fermer le modal
       this.isSubmitting = false;
       this.closeCouponModal();
-      
+
       // Optionnel : afficher un message de succès
       alert('Coupon créé avec succès !');
     }, 2000);
@@ -449,8 +479,8 @@ export class PromotionsManagementComponent {
   filterPromotions(): void {
     this.filteredPromotions = this.promotions.filter(promotion => {
       const matchesSearch = promotion.nom.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                           promotion.produits.toLowerCase().includes(this.searchTerm.toLowerCase());
-      
+        promotion.produits.toLowerCase().includes(this.searchTerm.toLowerCase());
+
       const matchesStatus = !this.selectedStatusFilter || promotion.statut === this.selectedStatusFilter;
 
       return matchesSearch && matchesStatus;
@@ -478,5 +508,28 @@ export class PromotionsManagementComponent {
   viewDetails(id: number): void {
     console.log('Afficher les détails de la promotion:', id);
     // Ici vous pouvez implémenter la navigation vers les détails
+  }
+
+  // Et ajouter cette méthode dans la classe du composant :
+  togglePromotionStatus(promotionId: number, action: 'activer' | 'desactiver'): void {
+    const promotion = this.promotions.find(p => p.id === promotionId);
+    if (promotion) {
+      if (action === 'activer') {
+        promotion.statut = 'Actif';
+        promotion.icon = '/icones/actif.svg';
+        console.log(`Promotion "${promotion.nom}" activée`);
+      } else if (action === 'desactiver') {
+        promotion.statut = 'Planifié';
+        promotion.icon = '/icones/attente.svg';
+        console.log(`Promotion "${promotion.nom}" désactivée`);
+      }
+
+      // Rafraîchir les promotions filtrées
+      this.filterPromotions();
+
+      // Optionnel : afficher un message de confirmation
+      const actionText = action === 'activer' ? 'activée' : 'désactivée';
+      alert(`Promotion "${promotion.nom}" ${actionText} avec succès !`);
+    }
   }
 }

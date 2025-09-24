@@ -35,11 +35,15 @@ export const routes: Routes = [
     path: 'com/dashboard',
     loadComponent: () => import('./features/commercial/dashboard/dashboard.component').then(c => c.DashboardComponent)
   },
+  {
+    path: 'admin/dashboardadmin',
+    loadComponent: () => import('./features/administrateur/dashboard/dashboard.component').then(c => c.AdminPageComponent)
+  },
   //path for logistique dashboard module
-  //  {
-  //   path: 'log/dashboardlog',
-  //   loadComponent: () => import('./features/logistique/dashboard/dashboardlog.component').then(c => c.DashboardLogComponent)
-  // },
+    {
+     path: 'log/dashboardlog',
+     loadComponent: () => import('./features/logistique/dashboard/dashboardlog.component').then(c => c.DashboardLogComponent)
+   },
    {
     path: 'com/propection',
     loadComponent: () => import('./features/commercial/propection/propection.component').then(c => c.ProspectionComponent)
