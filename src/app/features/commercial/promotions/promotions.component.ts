@@ -49,9 +49,9 @@ interface Promotion {
                 </div>
                 <div class="w-10 h-10 bg-green-200 rounded-full flex items-center justify-center">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M12.586 2.586C12.211 2.2109 11.7024 2.00011 11.172 2H4C3.46957 2 2.96086 2.21071 2.58579 2.58579C2.21071 2.96086 2 3.46957 2 4V11.172C2.00011 11.7024 2.2109 12.211 2.586 12.586L11.29 21.29C11.7445 21.7416 12.3592 21.9951 13 21.9951C13.6408 21.9951 14.2555 21.7416 14.71 21.29L21.29 14.71C21.7416 14.2555 21.9951 13.6408 21.9951 13C21.9951 12.3592 21.7416 11.7445 21.29 11.29L12.586 2.586Z" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M7.5 8C7.77614 8 8 7.77614 8 7.5C8 7.22386 7.77614 7 7.5 7C7.22386 7 7 7.22386 7 7.5C7 7.77614 7.22386 8 7.5 8Z" fill="black" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+                    <path d="M12.586 2.586C12.211 2.2109 11.7024 2.00011 11.172 2H4C3.46957 2 2.96086 2.21071 2.58579 2.58579C2.21071 2.96086 2 3.46957 2 4V11.172C2.00011 11.7024 2.2109 12.211 2.586 12.586L11.29 21.29C11.7445 21.7416 12.3592 21.9951 13 21.9951C13.6408 21.9951 14.2555 21.7416 14.71 21.29L21.29 14.71C21.7416 14.2555 21.9951 13.6408 21.9951 13C21.9951 12.3592 21.7416 11.7445 21.29 11.29L12.586 2.586Z" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M7.5 8C7.77614 8 8 7.77614 8 7.5C8 7.22386 7.77614 7 7.5 7C7.22386 7 7 7.22386 7 7.5C7 7.77614 7.22386 8 7.5 8Z" fill="black" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
                 </div>
               </div>
             </div>
@@ -64,10 +64,10 @@ interface Promotion {
                 </div>
                 <div class="w-10 h-10 bg-blue-200 rounded-full flex items-center justify-center">
                   <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M8.61572 22C9.16801 22 9.61572 21.5523 9.61572 21C9.61572 20.4477 9.16801 20 8.61572 20C8.06344 20 7.61572 20.4477 7.61572 21C7.61572 21.5523 8.06344 22 8.61572 22Z" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M19.6157 22C20.168 22 20.6157 21.5523 20.6157 21C20.6157 20.4477 20.168 20 19.6157 20C19.0634 20 18.6157 20.4477 18.6157 21C18.6157 21.5523 19.0634 22 19.6157 22Z" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M2.66553 2.05005H4.66553L7.32553 14.47C7.42311 14.9249 7.6762 15.3315 8.04124 15.6199C8.40628 15.9083 8.86043 16.0604 9.32553 16.05H19.1055C19.5607 16.0493 20.002 15.8933 20.3566 15.6079C20.7111 15.3224 20.9577 14.9246 21.0555 14.48L22.7055 7.05005H5.73553" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+                      <path d="M8.61572 22C9.16801 22 9.61572 21.5523 9.61572 21C9.61572 20.4477 9.16801 20 8.61572 20C8.06344 20 7.61572 20.4477 7.61572 21C7.61572 21.5523 8.06344 22 8.61572 22Z" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M19.6157 22C20.168 22 20.6157 21.5523 20.6157 21C20.6157 20.4477 20.168 20 19.6157 20C19.0634 20 18.6157 20.4477 18.6157 21C18.6157 21.5523 19.0634 22 19.6157 22Z" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M2.66553 2.05005H4.66553L7.32553 14.47C7.42311 14.9249 7.6762 15.3315 8.04124 15.6199C8.40628 15.9083 8.86043 16.0604 9.32553 16.05H19.1055C19.5607 16.0493 20.002 15.8933 20.3566 15.6079C20.7111 15.3224 20.9577 14.9246 21.0555 14.48L22.7055 7.05005H5.73553" stroke="#2C2D5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
                 </div>
               </div>
             </div>
@@ -80,10 +80,10 @@ interface Promotion {
                 </div>
                 <div class="w-10 h-10 bg-purple-200 rounded-full flex items-center justify-center">
                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M19.6157 5L5.61572 19" stroke="#9333EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M7.11572 9C8.49643 9 9.61572 7.88071 9.61572 6.5C9.61572 5.11929 8.49643 4 7.11572 4C5.73501 4 4.61572 5.11929 4.61572 6.5C4.61572 7.88071 5.73501 9 7.11572 9Z" stroke="#9333EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M18.1157 20C19.4964 20 20.6157 18.8807 20.6157 17.5C20.6157 16.1193 19.4964 15 18.1157 15C16.735 15 15.6157 16.1193 15.6157 17.5C15.6157 18.8807 16.735 20 18.1157 20Z" stroke="#9333EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+                      <path d="M19.6157 5L5.61572 19" stroke="#9333EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M7.11572 9C8.49643 9 9.61572 7.88071 9.61572 6.5C9.61572 5.11929 8.49643 4 7.11572 4C5.73501 4 4.61572 5.11929 4.61572 6.5C4.61572 7.88071 5.73501 9 7.11572 9Z" stroke="#9333EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M18.1157 20C19.4964 20 20.6157 18.8807 20.6157 17.5C20.6157 16.1193 19.4964 15 18.1157 15C16.735 15 15.6157 16.1193 15.6157 17.5C15.6157 18.8807 16.735 20 18.1157 20Z" stroke="#9333EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
                 </div>
               </div>
             </div>
@@ -96,11 +96,11 @@ interface Promotion {
                 </div>
                 <div class="w-10 h-10 bg-orange-200 rounded-full flex items-center justify-center">
                   <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M11.6157 21.73C11.9198 21.9056 12.2646 21.998 12.6157 21.998C12.9668 21.998 13.3117 21.9056 13.6157 21.73L20.6157 17.73C20.9195 17.5547 21.1717 17.3025 21.3473 16.9989C21.5228 16.6952 21.6154 16.3508 21.6157 16V8.00002C21.6154 7.6493 21.5228 7.30483 21.3473 7.00119C21.1717 6.69754 20.9195 6.44539 20.6157 6.27002L13.6157 2.27002C13.3117 2.09449 12.9668 2.00208 12.6157 2.00208C12.2646 2.00208 11.9198 2.09449 11.6157 2.27002L4.61572 6.27002C4.31199 6.44539 4.0597 6.69754 3.88418 7.00119C3.70867 7.30483 3.61608 7.6493 3.61572 8.00002V16C3.61608 16.3508 3.70867 16.6952 3.88418 16.9989C4.0597 17.3025 4.31199 17.5547 4.61572 17.73L11.6157 21.73Z" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M12.6157 22V12" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M3.90576 7L12.6158 12L21.3258 7" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M8.11572 4.27002L17.1157 9.42002" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+                      <path d="M11.6157 21.73C11.9198 21.9056 12.2646 21.998 12.6157 21.998C12.9668 21.998 13.3117 21.9056 13.6157 21.73L20.6157 17.73C20.9195 17.5547 21.1717 17.3025 21.3473 16.9989C21.5228 16.6952 21.6154 16.3508 21.6157 16V8.00002C21.6154 7.6493 21.5228 7.30483 21.3473 7.00119C21.1717 6.69754 20.9195 6.44539 20.6157 6.27002L13.6157 2.27002C13.3117 2.09449 12.9668 2.00208 12.6157 2.00208C12.2646 2.00208 11.9198 2.09449 11.6157 2.27002L4.61572 6.27002C4.31199 6.44539 4.0597 6.69754 3.88418 7.00119C3.70867 7.30483 3.61608 7.6493 3.61572 8.00002V16C3.61608 16.3508 3.70867 16.6952 3.88418 16.9989C4.0597 17.3025 4.31199 17.5547 4.61572 17.73L11.6157 21.73Z" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M12.6157 22V12" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M3.90576 7L12.6158 12L21.3258 7" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M8.11572 4.27002L17.1157 9.42002" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
                 </div>
               </div>
             </div>
@@ -160,14 +160,14 @@ interface Promotion {
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600"    >
                   <span class="inline-flex">
-                    <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M5.51172 1.33337V4.00004" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                           <path d="M10.8447 1.33337V4.00004" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                           <path d="M12.8449 2.66663H3.51156C2.77518 2.66663 2.17822 3.26358 2.17822 3.99996V13.3333C2.17822 14.0697 2.77518 14.6666 3.51156 14.6666H12.8449C13.5813 14.6666 14.1782 14.0697 14.1782 13.3333V3.99996C14.1782 3.26358 13.5813 2.66663 12.8449 2.66663Z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                           <path d="M2.17822 6.66663H14.1782" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                          </svg>
-                    </span>
-                {{ promotion.validite }}
+                        </svg>
+                  </span>
+                  {{ promotion.validite }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span 

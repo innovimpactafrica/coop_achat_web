@@ -6,19 +6,23 @@ export const routes: Routes = [
     redirectTo: '/login',
     pathMatch: 'full'
   },
-  
+
+  //path for login module
   {
     path: 'login',
     loadComponent: () => import('./features/auth/login/login.component').then(c => c.LoginComponent)
   },
+
   {
     path: 'register',
     loadComponent: () => import('./features/auth/register/register.component').then(c => c.RegisterComponent)
   },
+
   {
     path: 'forgot-password',
     loadComponent: () => import('./features/auth/forgot-password/forgot-password.component').then(c => c.ForgotPasswordComponent)
   },
+
   {
     path: 'create-password', // ✅ Route corrigée pour CreatePasswordComponent
     loadComponent: () => import('./features/auth/create-password/create-password.component').then(c => c.CreatePasswordComponent)
@@ -31,19 +35,21 @@ export const routes: Routes = [
     path: 'reset-password',
     loadComponent: () => import('./features/auth/reset-password/reset-password.component').then(c => c.ResetPasswordComponent)
   },
-  {
-    path: 'com/dashboard',
-    loadComponent: () => import('./features/commercial/dashboard/dashboard.component').then(c => c.DashboardComponent)
-  },
+  //path for admin dashboard module
   {
     path: 'admin/dashboardadmin',
     loadComponent: () => import('./features/administrateur/dashboard/dashboard.component').then(c => c.AdminPageComponent)
   },
   //path for logistique dashboard module
-    {
-     path: 'log/dashboardlog',
-     loadComponent: () => import('./features/logistique/dashboard/dashboardlog.component').then(c => c.DashboardLogComponent)
-   },
+  {
+    path: 'log/dashboardlog',
+    loadComponent: () => import('./features/logistique/dashboard/dashboardlog.component').then(c => c.DashboardLogComponent)
+  },
+  //path for commercial dashboard module
+  {
+    path: 'com/dashboard',
+    loadComponent: () => import('./features/commercial/dashboard/dashboard.component').then(c => c.DashboardComponent)
+  },
    {
     path: 'com/propection',
     loadComponent: () => import('./features/commercial/propection/propection.component').then(c => c.ProspectionComponent)
@@ -65,3 +71,6 @@ export const routes: Routes = [
     redirectTo: '/login'
   }
 ];
+
+
+

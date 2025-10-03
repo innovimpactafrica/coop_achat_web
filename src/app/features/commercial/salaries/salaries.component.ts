@@ -190,8 +190,17 @@ interface Employee {
                       (click)="deleteEmployee(employee.id)"
                       class="bg-[#FF0007] hover:bg-[#CC0006] text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
                     >
-                      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_1_950)">
+                            <path d="M2.67969 4H13.1797" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12.013 4V12.1667C12.013 12.75 11.4296 13.3333 10.8463 13.3333H5.01298C4.42965 13.3333 3.84631 12.75 3.84631 12.1667V4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M5.59631 3.99984V2.83317C5.59631 2.24984 6.17965 1.6665 6.76298 1.6665H9.09631C9.67965 1.6665 10.263 2.24984 10.263 2.83317V3.99984" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                            <clipPath id="clip0_1_950">
+                            <rect width="14" height="14" fill="white" transform="translate(0.929688 0.5)"/>
+                            </clipPath>
+                            </defs>
                       </svg>
                       Supprimer
                     </button>
@@ -201,7 +210,6 @@ interface Employee {
             </tbody>
           </table>
         </div>
-
         <!-- Pagination -->
         <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
           <div class="text-sm text-gray-600">
@@ -230,7 +238,6 @@ interface Employee {
           </div>
         </div>
       </div>
-
       <!-- Intégration du modal -->
       <app-employee-modal
         [isOpen]="isModalOpen"

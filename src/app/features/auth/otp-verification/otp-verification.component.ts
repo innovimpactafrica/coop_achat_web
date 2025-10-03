@@ -12,7 +12,6 @@ import { Router, ActivatedRoute } from '@angular/router';
          style="background-image: url('/images/fond_ecran.png');">
 
       <div class="h-full w-full flex items-center justify-center">
-        
         <!-- Left Section - Form -->
         <div class="w-1/2 h-full p-8 p-12 flex flex-col justify-center">
           <!-- Logo -->
@@ -23,7 +22,6 @@ import { Router, ActivatedRoute } from '@angular/router';
               class="h-12 w-auto animate-float"
             >
           </div>
-
           <!-- Title -->
           <div class="mb-4 flex flex-wrap items-center">
               <h1 class="text-3xl lg:text-4xl font-bold text-gray-800 mr-2">
@@ -32,7 +30,6 @@ import { Router, ActivatedRoute } from '@angular/router';
               <p class="text-gray-600 text-lg mr-2">Veuillez entrer le code à 6 chiffres envoyé par Email à</p>
               <span>{{ maskedEmail }}</span>
           </div>
-
           <!-- OTP Form -->
           <form [formGroup]="otpForm" (ngSubmit)="onSubmit()" class="space-y-4">
             <!-- OTP Input Fields -->
@@ -124,12 +121,10 @@ import { Router, ActivatedRoute } from '@angular/router';
                 />
               </div>
             </div>
-
             <!-- Error Message -->
             <div *ngIf="errorMessage" class="text-red-500 text-sm text-center">
               {{ errorMessage }}
             </div>
-
             <!-- Resend Code -->
             <div class="text-center">
               <span class="text-gray-600">Vous n'avez pas reçu de code ? </span>
@@ -143,7 +138,6 @@ import { Router, ActivatedRoute } from '@angular/router';
                 <span *ngIf="isResendDisabled">Renvoyer dans ({{ resendCountdown }}s)</span>
               </button>
             </div>
-
             <!-- Verify Button -->
             <button
               type="submit"
@@ -176,7 +170,6 @@ import { Router, ActivatedRoute } from '@angular/router';
             </div>
           </form>
         </div>
-
         <!-- Right Section - Image -->
         <div class="w-1/2 h-full relative flex items-center justify-center">
           <img 
@@ -231,7 +224,7 @@ export class OtpVerificationComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       const email = params['email'] || localStorage.getItem('verificationEmail');
       this.verificationType = params['type'] || 'registration';
-      
+
       if (email) {
         this.maskedEmail = this.maskEmail(email);
       } else {
@@ -250,18 +243,18 @@ export class OtpVerificationComponent implements OnInit {
   }
 
   get isCodeComplete(): boolean {
-    return this.otpForm.valid && 
-           this.otpForm.get('digit1')?.value &&
-           this.otpForm.get('digit2')?.value &&
-           this.otpForm.get('digit3')?.value &&
-           this.otpForm.get('digit4')?.value &&
-           this.otpForm.get('digit5')?.value &&
-           this.otpForm.get('digit6')?.value;
+    return this.otpForm.valid &&
+      this.otpForm.get('digit1')?.value &&
+      this.otpForm.get('digit2')?.value &&
+      this.otpForm.get('digit3')?.value &&
+      this.otpForm.get('digit4')?.value &&
+      this.otpForm.get('digit5')?.value &&
+      this.otpForm.get('digit6')?.value;
   }
 
   onDigitInput(event: any, index: number): void {
     const value = event.target.value;
-    
+
     // Only allow digits
     if (!/^\d$/.test(value) && value !== '') {
       event.target.value = '';
@@ -284,7 +277,7 @@ export class OtpVerificationComponent implements OnInit {
 
   onKeyDown(event: KeyboardEvent, index: number): void {
     const digitControlName = `digit${index + 1}`;
-    
+
     // Handle backspace
     if (event.key === 'Backspace') {
       if (!this.otpForm.get(digitControlName)?.value) {
@@ -300,7 +293,7 @@ export class OtpVerificationComponent implements OnInit {
         this.otpForm.get(digitControlName)?.setValue('');
       }
     }
-    
+
     // Handle arrow keys
     if (event.key === 'ArrowLeft' && index > 0) {
       const prevInput = this.otpInputs.toArray()[index - 1];
@@ -308,7 +301,7 @@ export class OtpVerificationComponent implements OnInit {
         prevInput.nativeElement.focus();
       }
     }
-    
+
     if (event.key === 'ArrowRight' && index < 5) {
       const nextInput = this.otpInputs.toArray()[index + 1];
       if (nextInput) {
@@ -320,19 +313,19 @@ export class OtpVerificationComponent implements OnInit {
   onPaste(event: ClipboardEvent, index: number): void {
     event.preventDefault();
     const pastedData = event.clipboardData?.getData('text') || '';
-    
+
     if (/^\d{6}$/.test(pastedData)) {
       // Valid 6-digit code
       for (let i = 0; i < 6; i++) {
         const digitControlName = `digit${i + 1}`;
         this.otpForm.get(digitControlName)?.setValue(pastedData[i]);
-        
+
         const input = this.otpInputs.toArray()[i];
         if (input) {
           input.nativeElement.value = pastedData[i];
         }
       }
-      
+
       // Focus on last input
       const lastInput = this.otpInputs.toArray()[5];
       if (lastInput) {
@@ -349,24 +342,24 @@ export class OtpVerificationComponent implements OnInit {
 
   getOtpCode(): string {
     return (this.otpForm.get('digit1')?.value || '') +
-           (this.otpForm.get('digit2')?.value || '') +
-           (this.otpForm.get('digit3')?.value || '') +
-           (this.otpForm.get('digit4')?.value || '') +
-           (this.otpForm.get('digit5')?.value || '') +
-           (this.otpForm.get('digit6')?.value || '');
+      (this.otpForm.get('digit2')?.value || '') +
+      (this.otpForm.get('digit3')?.value || '') +
+      (this.otpForm.get('digit4')?.value || '') +
+      (this.otpForm.get('digit5')?.value || '') +
+      (this.otpForm.get('digit6')?.value || '');
   }
 
   onSubmit(): void {
     if (this.isCodeComplete && !this.isLoading) {
       this.isLoading = true;
       this.errorMessage = '';
-      
+
       const otpCode = this.getOtpCode();
-      
+
       // Simulate API call
       setTimeout(() => {
         this.isLoading = false;
-        
+
         // Simulate validation (replace with actual API call)
         if (otpCode === '123456') {
           // Success - redirect based on verification type
@@ -379,7 +372,7 @@ export class OtpVerificationComponent implements OnInit {
           // Error
           this.errorMessage = 'Code de vérification incorrect. Veuillez réessayer.';
           this.isInvalid = true;
-          
+
           // Clear inputs and focus first one
           this.otpForm.reset();
           this.otpInputs.first.nativeElement.focus();
@@ -392,10 +385,10 @@ export class OtpVerificationComponent implements OnInit {
     if (!this.isResendDisabled) {
       this.isResendDisabled = true;
       this.resendCountdown = 60;
-      
+
       // Simulate sending new code
       console.log('Nouveau code envoyé');
-      
+
       // Start countdown
       const countdownInterval = setInterval(() => {
         this.resendCountdown--;

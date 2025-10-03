@@ -11,11 +11,11 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
     <div class="min-h-screen relative overflow-hidden"
          style="background-image: url('/images/fond_ecran.png');">
 
-      <div class="h-full w-full flex items-center justify-center">          
+      <div class="h-full w-full flex items-center justify-center ">          
         <!-- Left Section - Form -->
-        <div class="w-1/2 h-full p-8 p-12 flex flex-col justify-center">
+        <div class="w-1/2 h-full p-12 p-12 flex flex-col justify-center sm:px-16">
           <!-- Logo -->
-          <div class="mb-8">
+          <div class="mb-2">
             <img 
               src="/images/logo.png" 
               alt="Logo CoopAchat"
@@ -34,31 +34,33 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
           </div>
 
           <!-- User Type Selection -->
-          <div class="mb-8">
+          <div class="mb-8 ">
             <p class="text-gray-700 text-sm font-medium mb-4">Vous êtes ?</p>
             <div class="grid grid-cols-2 gap-4">
-              <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-200"
+              <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 border-gray-200 hover:border-orange-300"
                      [class.border-orange-500]="registerForm.get('userType')?.value === 'commercial'"
                      [class.bg-orange-50]="registerForm.get('userType')?.value === 'commercial'"
-                     [class.border-gray-200]="registerForm.get('userType')?.value !== 'commercial'">
+                     (click)="selectUserType('commercial')">
                 <input 
                   type="radio" 
                   value="commercial"
                   formControlName="userType"
-                  class="w-5 h-5 text-orange-600 bg-white border-2 border-gray-300 focus:ring-orange-500 focus:ring-2"
+                  class="w-5 h-5 text-orange-600 bg-white border-2 border-gray-300 focus:ring-0 cursor-pointer"
+                  [checked]="registerForm.get('userType')?.value === 'commercial'"
                 >
                 <span class="ml-3 text-gray-700 font-medium">Commercial</span>
               </label>
               
-              <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-200"
-                     [class.border-gray-400]="registerForm.get('userType')?.value === 'logistique'"
-                     [class.bg-gray-50]="registerForm.get('userType')?.value === 'logistique'"
-                     [class.border-gray-200]="registerForm.get('userType')?.value !== 'logistique'">
+              <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 border-gray-200 hover:border-orange-300"
+                     [class.border-orange-500]="registerForm.get('userType')?.value === 'logistique'"
+                     [class.bg-orange-50]="registerForm.get('userType')?.value === 'logistique'"
+                     (click)="selectUserType('logistique')">
                 <input 
                   type="radio" 
                   value="logistique"
                   formControlName="userType"
-                  class="w-5 h-5 text-gray-600 bg-white border-2 border-gray-300 focus:ring-gray-500 focus:ring-2"
+                  class="w-5 h-5 text-orange-600 bg-white border-2 border-gray-300 focus:ring-0 cursor-pointer"
+                  [checked]="registerForm.get('userType')?.value === 'logistique'"
                 >
                 <span class="ml-3 text-gray-700 font-medium">Logistique</span>
               </label>
@@ -125,8 +127,7 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
                   <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M20.45 21C18.3667 21 16.3083 20.546 14.275 19.638C12.2417 18.73 10.3917 17.4423 8.725 15.775C7.05833 14.1077 5.771 12.2577 4.863 10.225C3.955 8.19233 3.50067 6.134 3.5 4.05C3.5 3.75 3.6 3.5 3.8 3.3C4 3.1 4.25 3 4.55 3H8.6C8.83333 3 9.04167 3.07933 9.225 3.238C9.40833 3.39667 9.51667 3.584 9.55 3.8L10.2 7.3C10.2333 7.56667 10.225 7.79167 10.175 7.975C10.125 8.15833 10.0333 8.31667 9.9 8.45L7.475 10.9C7.80833 11.5167 8.204 12.1123 8.662 12.687C9.12 13.2617 9.62433 13.816 10.175 14.35C10.6917 14.8667 11.2333 15.346 11.8 15.788C12.3667 16.23 12.9667 16.634 13.6 17L15.95 14.65C16.1 14.5 16.296 14.3877 16.538 14.313C16.78 14.2383 17.0173 14.2173 17.25 14.25L20.7 14.95C20.9333 15.0167 21.125 15.1377 21.275 15.313C21.425 15.4883 21.5 15.684 21.5 15.9V19.95C21.5 20.25 21.4 20.5 21.2 20.7C21 20.9 20.75 21 20.45 21ZM6.525 9L8.175 7.35L7.75 5H5.525C5.60833 5.68333 5.725 6.35833 5.875 7.025C6.025 7.69167 6.24167 8.35 6.525 9ZM15.475 17.95C16.125 18.2333 16.7877 18.4583 17.463 18.625C18.1383 18.7917 18.8173 18.9 19.5 18.95V16.75L17.15 16.275L15.475 17.95Z" fill="#ACB5BB"/>
-                      </svg>
-
+                    </svg>
                   </div>
                   <input 
                     type="tel" 
@@ -202,13 +203,17 @@ export class RegisterComponent {
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.registerForm = this.fb.group({
-      userType: ['commercial', [Validators.required]],
+      userType: ['', [Validators.required]], // Pas de valeur par défaut
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern(/^[+]?[0-9\s\-\(\)]{8,15}$/)]],
       company: ['', [Validators.required, Validators.minLength(2)]]
     });
+  }
+
+  selectUserType(type: string): void {
+    this.registerForm.patchValue({ userType: type });
   }
 
   onSubmit(): void {

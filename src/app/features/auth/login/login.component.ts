@@ -12,7 +12,7 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
 
       <div class="h-full w-full flex items-center justify-center">          
           <!-- Left Section - Form -->
-          <div class="w-1/2 h-full p-8 p-12 flex flex-col justify-center">
+          <div class="w-1/2 h-full p-8 p-12 flex flex-col justify-center sm:px-16">
             <!-- Logo -->
             <div class="mb-4">
               <img 

@@ -56,7 +56,6 @@ interface GeneralInfo {
                 <path d="M14.9438 10V12.6667C14.9438 13.0203 14.8034 13.3594 14.5533 13.6095C14.3033 13.8595 13.9641 14 13.6105 14H4.27718C3.92356 14 3.58442 13.8595 3.33437 13.6095C3.08432 13.3594 2.94385 13.0203 2.94385 12.6667V10" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M5.61035 6.6665L8.94368 9.99984L12.277 6.6665" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-
               Exporter
             </button>
           </div>
@@ -87,9 +86,7 @@ interface GeneralInfo {
     </select>
   </div>
 </div>
-
     </div>
-
         <!-- Cartes de statistiques -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div *ngFor="let stat of statsCards" class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
@@ -99,64 +96,64 @@ interface GeneralInfo {
             </div>
           </div>
         </div>
-
         <!-- Graphiques -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-4">
           <!-- Évolution des ventes -->
-          <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-4">Évolution des ventes</h3>
+          <div class="bg-white rounded-xl  shadow-sm border border-gray-100 py-4 sm:py-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-4 sm:px-6">Évolution des ventes</h3>
             <div class="h-80">
               <canvas #salesChart></canvas>
             </div>
           </div>
-
           <!-- Nombre de commandes -->
-          <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-4">Nombre de commandes</h3>
+          <div class="bg-white rounded-xl py-4 shadow-sm border border-gray-100 sm:py-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-4 sm:px-6">Nombre de commandes</h3>
             <div class="h-80">
               <canvas #ordersChart></canvas>
             </div>
           </div>
         </div>
-
         <!-- Section Détails et Analyse -->
-        <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100">
-           <div class="border-b border-gray-200 pb-4">
-               <h2 class="text-lg sm:text-xl font-semibold text-gray-900">Détails et Analyse</h2>
+        <div class="bg-white rounded-xl shadow-md border border-gray-100">
+           <div class="border-b border-gray-200 pb-2 sm:py-4">
+               <h2 class="text-lg sm:text-xl font-semibold text-gray-900 pb-2 sm:px-6">Détails et Analyse</h2>
             </div>
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
             <!-- Informations générales -->
             <div>
-              <h3 class="text-lg font-medium text-gray-900 mb-4">Informations générales</h3>
-              <div class="space-y-4">
+              <h3 class="text-lg font-medium text-gray-900 mb-4 sm:px-6">Informations générales</h3>
+              <div class="space-y-4 sm:px-6">
                 <div *ngFor="let info of generalInfo" class="flex items-center justify-between py-2">
                   <span class="text-sm text-gray-600">{{ info.label }}</span>
                   <div class="flex items-center gap-2">
-                    <span class="text-sm font-medium text-gray-900">{{ info.value }}</span>
-                    <span *ngIf="info.trend && info.trendType === 'positive'" 
-                          class="inline-flex items-center text-xs font-medium text-green-600">
-                      <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_24_798)">
-                        <path d="M11.165 4.6665H15.165V8.6665" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M15.1654 4.6665L9.4987 10.3332L6.16536 6.99984L1.83203 11.3332" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_24_798">
+             <!-- Icône positive -->
+                <span *ngIf="info.trend && info.trendType === 'positive'" 
+                      class="inline-flex items-center text-xs font-medium text-green-600">
+                  <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_24_798)">
+                      <path d="M11.165 4.6665H15.165V8.6665" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M15.1654 4.6665L9.4987 10.3332L6.16536 6.99984L1.83203 11.3332" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_24_798">
                         <rect width="16" height="16" fill="white" transform="translate(0.498535)"/>
-                        </clipPath>
-                        </defs>
-                      </svg>
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </span>
+<!-- Icône négative -->
+            <span *ngIf="info.trend && info.trendType === 'negative'" 
+                  class="inline-flex items-center text-xs font-medium text-red-600">
+              <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+              </svg>
+              {{ info.trend }}
+            </span>
 
-                     
-                    </span>
-                    <span *ngIf="info.trend && info.trendType === 'negative'" 
-                          class="inline-flex items-center text-xs font-medium text-red-600">
-                      <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                      </svg>
-                      {{ info.trend }}
-                    </span>
-                  </div>
+  <!-- Valeur -->
+  <span class="text-sm font-medium text-gray-900">{{ info.value }}</span>
+</div>
+
                 </div>
               </div>
             </div>
@@ -176,11 +173,9 @@ interface GeneralInfo {
                       <path d="M12.2642 13.3332V2.6665" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                       <path d="M4.26416 13.3332V10.6665" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-
                     Analyser le potentiel
                   </button>
             </div>
-
             </div>
           </div>
         </div>

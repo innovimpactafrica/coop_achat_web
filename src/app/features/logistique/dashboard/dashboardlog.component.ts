@@ -20,12 +20,6 @@ interface Delivery {
   statutColor: string;
 }
 
-interface StockData {
-  category: string;
-  percentage: number;
-  color: string;
-}
-
 interface StockAlert {
   productName: string;
   currentStock: number;
@@ -39,12 +33,19 @@ interface OrderCategory {
   products: string;
 }
 
+interface StockSegment {
+  label: string;
+  value: number;
+  color: string;
+  startAngle: number;
+  endAngle: number;
+}
+
 @Component({
   selector: 'app-dashboardlog',
   standalone: true,
   imports: [CommonModule, MainLayoutComponent],
   template: `
-    <!-- on passe role='log' au MainLayout -->
     <app-main-layout [role]="role">
       <!-- Header Section -->
       <div class="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0 mb-6 lg:mb-8">
@@ -80,81 +81,63 @@ interface OrderCategory {
               <span class="font-bold text-gray-700">{{ metric.subtitle }}</span>
               <span class="text-gray-500">{{ metric.subtitleDetail }}</span>
           </div>
-
         </div>
       </div>
 
       <!-- Charts and Tables Row -->
       <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6 lg:mb-8">
-        <!-- Stock Status Chart -->
-        <div class="bg-white rounded-lg p-4 sm:p-6 border border-gray-200 hover:shadow-md transition-shadow">
-          <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-4 sm:mb-6 border-b border-gray-200 pb-2">État des stocks</h3>
-
-          <div class="flex flex-col items-center">
-            <!-- Pie Chart -->
-            <div class="relative w-48 h-48 sm:w-56 sm:h-56 mb-6">
-              <svg viewBox="0 0 200 200" class="w-full h-full transform -rotate-90">
-                <!-- En stock (70%) -->
-                <circle
-                  cx="100"
-                  cy="100"
-                  r="70"
-                  fill="none"
-                  stroke="#10B981"
-                  stroke-width="25"
-                  stroke-dasharray="307.8 131.4"
-                  stroke-dashoffset="0"
-                />
-                <!-- Stock faible (15%) -->
-                <circle
-                  cx="100"
-                  cy="100"
-                  r="70"
-                  fill="none"
-                  stroke="#F59E0B"
-                  stroke-width="25"
-                  stroke-dasharray="65.9 373.3"
-                  stroke-dashoffset="-307.8"
-                />
-                <!-- Rupture (15%) -->
-                <circle
-                  cx="100"
-                  cy="100"
-                  r="70"
-                  fill="none"
-                  stroke="#EF4444"
-                  stroke-width="25"
-                  stroke-dasharray="65.9 373.3"
-                  stroke-dashoffset="-373.7"
+        <!-- Stock Status Chart - NOUVEAU DESIGN -->
+        <div class="bg-white rounded-lg py-4 sm:py-6 border border-gray-200 hover:shadow-md transition-shadow">
+          <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-4 px-4 sm:px-6">État des stocks</h3>
+          <div class="flex flex-col items-center border-t border-gray-200 mt-4">
+            <!-- Pie Chart avec labels autour -->
+            <div class="relative w-72 h-72 mx-auto mb-8">
+              <svg viewBox="0 0 200 200" class="w-48 h-48 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <path
+                  *ngFor="let segment of stockSegments"
+                  [attr.d]="createPieSlice(segment.startAngle, segment.endAngle)"
+                  [attr.fill]="segment.color"
+                  stroke="white"
+                  stroke-width="1"
                 />
               </svg>
-              <div class="absolute inset-0 flex items-center justify-center">
-                <div class="text-center">
-                  <div class="text-sm text-gray-500">En stock</div>
-                  <div class="text-lg font-bold text-green-600">70%</div>
+              
+              <!-- Labels positionnés autour du graphique -->
+              <div class="absolute w-full h-full">
+                <div
+                  *ngFor="let segment of stockSegments; let i = index"
+                  class="absolute"
+                  [style.left.%]="getLabelPosition(segment.startAngle, segment.endAngle).x"
+                  [style.top.%]="getLabelPosition(segment.startAngle, segment.endAngle).y"
+                  style="transform: translate(-200%, -700%);"
+                >
+                  <div 
+                    class="text-sm font-medium whitespace-nowrap"
+                    [ngClass]="{
+                      'text-green-500': i === 0,
+                      'text-yellow-500': i === 1,
+                      'text-pink-500': i === 2
+                    }"
+                  >
+                    {{ segment.label }} {{ segment.value }}%
+                  </div>
                 </div>
               </div>
             </div>
-            
-            <!-- Legend -->
-            <div class="flex flex-wrap justify-center gap-4 text-xs sm:text-sm">
-              <div class="flex items-center space-x-2">
-              <div class="w-3 h-2 bg-green-500 border border-black"></div>
-              <span class="text-gray-700">En stock</span>
-            </div>
 
-              <div class="flex items-center space-x-2">
-                <div class="w-3 h-2 bg-yellow-500 border border-black"></div>
-                <span class="text-gray-700">Stock faible</span>
-              </div>
-              <div class="flex items-center space-x-2">
-                <div class="w-3 h-2 bg-red-500 border border-black"></div>
-                <span class="text-gray-700">Rupture</span>
+            <!-- Legend -->
+            <div class="flex flex-wrap justify-center gap-8 mb-6">
+              <div *ngFor="let segment of stockSegments" class="flex items-center space-x-2">
+                <div 
+                  class="w-5 h-4 border-2 border-black"
+                  [style.background-color]="segment.color"
+                ></div>
+                <span class="text-sm text-gray-700">{{ segment.label }}</span>
               </div>
             </div>
             
-            <div class="mt-4">
-              <button class="text-gray-600 text-sm border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">
+            <div>
+              <button class="text-gray-700 text-sm border border-gray-300 px-8 py-2.5 rounded-md hover:bg-gray-50 transition-colors">
                 Voir détails
               </button>
             </div>
@@ -162,13 +145,12 @@ interface OrderCategory {
         </div>
 
         <!-- Planned Deliveries -->
-        <div class="bg-white rounded-lg p-4 sm:p-6 border border-gray-200 hover:shadow-md transition-shadow">
-          <div class="flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0 mb-4 sm:mb-6 ">
-            <h3 class="text-base sm:text-lg font-semibold text-gray-900">Livraisons planifiées</h3>
-          </div>
-          
+        <div class="bg-white rounded-lg py-4 sm:py-6 border border-gray-200 hover:shadow-md transition-shadow">
+          <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-4 sm:mb-6 border-b border-gray-200 pb-4 px-4 sm:px-6">
+            Livraisons planifiées
+          </h3>
           <!-- Desktop Table View -->
-          <div class="hidden lg:block overflow-x-auto border border-gray-200 hover:shadow-md rounded-lg shadow-md ">
+          <div class="hidden lg:block overflow-x-auto border border-gray-200 rounded-l-lg my-4 sm:my-6 ml-4 sm:ml-6">
             <table class="w-full">
               <thead class="bg-gray-50">
                 <tr>
@@ -196,14 +178,14 @@ interface OrderCategory {
                   </td>
                   <td class="px-4 py-4 whitespace-nowrap">
                     <span 
-                      class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full"
+                      class="inline-flex items-center px-3 py-1 text-xs font-medium rounded"
                       [ngClass]="getStatusClass(delivery.statutColor)"
                     >
                       {{ delivery.statut }}
                     </span>
                   </td>
                   <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
-                    <button class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded text-xs transition-colors">
+                    <button class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-1.5 rounded text-xs transition-colors">
                       Détails
                     </button>
                   </td>
@@ -216,7 +198,6 @@ interface OrderCategory {
           <div class="lg:hidden space-y-3">
             <div *ngFor="let delivery of plannedDeliveries" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
               <div class="flex flex-col space-y-3">
-                <!-- Header -->
                 <div class="flex items-start justify-between">
                   <div class="flex-1 min-w-0">
                     <h4 class="text-sm font-medium text-gray-900">{{ delivery.reference }}</h4>
@@ -229,8 +210,6 @@ interface OrderCategory {
                     {{ delivery.statut }}
                   </span>
                 </div>
-
-                <!-- Details -->
                 <div class="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <span class="text-gray-500">Date:</span>
@@ -241,8 +220,6 @@ interface OrderCategory {
                     <span class="ml-1 font-medium text-gray-900">{{ delivery.produits }}</span>
                   </div>
                 </div>
-
-                <!-- Action Button -->
                 <div class="pt-2">
                   <button class="w-full bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded text-xs font-medium transition-colors">
                     Détails
@@ -257,71 +234,55 @@ interface OrderCategory {
       <!-- Alertes et Commandes Row -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <!-- Alertes de stock -->
-        <div class="bg-white rounded-lg p-4 sm:p-6 border border-gray-200 hover:shadow-md transition-shadow">
-          <div class="flex items-center justify-between mb-6">
+        <div class="bg-white rounded-lg py-4 sm:py-6 border border-gray-200 hover:shadow-md transition-shadow">
+          <div class="flex flex-col px-4 sm:px-6 space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0 mb-4 sm:mb-6 border-b border-gray-200 pb-2">
             <h3 class="text-base sm:text-lg font-semibold text-gray-900">Alertes de stock</h3>
           </div>
           
-          <div class="space-y-4">
-  <div *ngFor="let alert of stockAlerts" class="bg-red-50 border border-red-200 rounded-lg p-4">
-    <div class="flex items-start space-x-3">
-      <!-- Icône d'alerte -->
-      <div class="flex-shrink-0 mt-0.5">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-             xmlns="http://www.w3.org/2000/svg">
-          <path d="M18.1083 14.9999L11.4416 3.33319C11.2962 3.0767 11.0854 2.86335 10.8307 2.71492C10.576 2.56649 10.2864 2.48828 9.99161 2.48828C9.69678 2.48828 9.40724 2.56649 9.1525 2.71492C8.89777 2.86335 8.68697 3.0767 8.54161 3.33319L1.87494 14.9999C1.72801 15.2543 1.65096 15.5431 1.65162 15.837C1.65227 16.1308 1.73059 16.4192 1.87865 16.673C2.0267 16.9269 2.23923 17.137 2.49469 17.2822C2.75014 17.4274 3.03945 17.5025 3.33327 17.4999H16.6666C16.959 17.4996 17.2462 17.4223 17.4993 17.2759C17.7525 17.1295 17.9626 16.9191 18.1087 16.6658C18.2548 16.4125 18.3316 16.1252 18.3316 15.8328C18.3315 15.5404 18.2545 15.2531 18.1083 14.9999Z"
-                stroke="#F87171" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round"/>
-          <path d="M10 7.5V10.8333" stroke="#F87171" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M10 14.167H10.0083" stroke="#F87171" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-
-      <!-- Contenu de l'alerte -->
-      <div class="flex-1 min-w-0">
-        <h4 class="font-medium text-red-800 mb-2">{{ alert.productName }}</h4>
-
-        <!-- Ligne infos stock + fournisseur -->
-        <div class="flex items-center justify-between text-xs text-red-600 mb-3">
-          <div class="flex items-center space-x-4">
-            <span>Stock actuel: <strong>{{ alert.currentStock }}</strong></span>
-            <span>Seuil d'alerte: <strong>{{ alert.alertThreshold }}</strong></span>
-            <span>Fournisseur: <strong>{{ alert.supplier }}</strong></span>
+          <div class="space-y-4 px-4 sm:px-6">
+            <div *ngFor="let alert of stockAlerts" class="bg-red-50 border border-red-200 rounded-lg p-4">
+              <div class="flex items-start space-x-3">
+                <div class="flex-shrink-0 mt-0.5">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.1083 14.9999L11.4416 3.33319C11.2962 3.0767 11.0854 2.86335 10.8307 2.71492C10.576 2.56649 10.2864 2.48828 9.99161 2.48828C9.69678 2.48828 9.40724 2.56649 9.1525 2.71492C8.89777 2.86335 8.68697 3.0767 8.54161 3.33319L1.87494 14.9999C1.72801 15.2543 1.65096 15.5431 1.65162 15.837C1.65227 16.1308 1.73059 16.4192 1.87865 16.673C2.0267 16.9269 2.23923 17.137 2.49469 17.2822C2.75014 17.4274 3.03945 17.5025 3.33327 17.4999H16.6666C16.959 17.4996 17.2462 17.4223 17.4993 17.2759C17.7525 17.1295 17.9626 16.9191 18.1087 16.6658C18.2548 16.4125 18.3316 16.1252 18.3316 15.8328C18.3315 15.5404 18.2545 15.2531 18.1083 14.9999Z" stroke="#F87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 7.5V10.8333" stroke="#F87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 14.167H10.0083" stroke="#F87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h4 class="font-medium text-red-800 mb-2">{{ alert.productName }}</h4>
+                  <div class="flex items-center justify-between text-xs text-red-600 mb-3">
+                    <div class="flex items-center space-x-4">
+                      <span>Stock actuel: <strong>{{ alert.currentStock }}</strong></span>
+                      <span>Seuil d'alerte: <strong>{{ alert.alertThreshold }}</strong></span>
+                      <span>Fournisseur: <strong>{{ alert.supplier }}</strong></span>
+                    </div>
+                  </div>
+                  <div class="flex">
+                    <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs font-medium transition-colors">
+                      Commander
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <!-- Bouton aligné -->
-        <div class="flex">
-          <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs font-medium transition-colors">
-            Commander
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
           
           <div class="mt-4 text-center">
-            <button class="text-blue-600 text-sm  px-4 py-2 rounded-lg  transition-colors font-medium">
+            <button class="text-blue-600 text-sm px-4 py-2 rounded-lg transition-colors font-medium">
               <a href="/#">Voir toutes les alertes</a>
-              
             </button>
           </div>
         </div>
 
         <!-- Commandes à préparer aujourd'hui -->
-        <div class="bg-white rounded-lg p-4 sm:p-6 border border-gray-200 hover:shadow-md transition-shadow">
-          <div class="flex items-center justify-between mb-6">
+        <div class="bg-white rounded-lg py-4 sm:py-6 border border-gray-200 hover:shadow-md transition-shadow">
+          <div class="flex flex-col px-4 sm:px-6 space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0 mb-4 sm:mb-6 border-b border-gray-200 pb-2">
             <h3 class="text-base sm:text-lg font-semibold text-gray-900">Commandes à préparer aujourd'hui</h3>
           </div>
           
-          <!-- Résumé principal -->
-          <div class=" border border-gray-200 rounded-lg p-4 mb-6">
+          <div class="border border-gray-200 rounded-lg p-4 mx-4 sm:mx-6">
             <div class="flex items-center space-x-3">
-              <!-- Icône boîte -->
               <div class="flex-shrink-0">
                 <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
                   <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -329,54 +290,40 @@ interface OrderCategory {
                   </svg>
                 </div>
               </div>
-              
-              <!-- Contenu principal -->
               <div class="flex-1">
                 <h4 class="text-lg font-semibold">8 commandes à préparer</h4>
                 <p class="text-sm text-gray-600">Pour livraison demain</p>
               </div>
             </div>
-          
-          
-          <!-- Détails par catégorie -->
-          <div class="grid grid-cols-3 gap-4 mb-6 bg-gray-50 p-4 display ">
-            <div *ngFor="let category of orderCategories" class="text-center">
-              <div class="text-lg font-bold text-gray-900">{{ category.count }}</div>
-              <div class="text-xs text-gray-500">{{ category.products }}</div>
-              <div class="text-sm text-gray-700 mt-1">{{ category.name }}</div>
+            <div class="grid grid-cols-3 gap-4 mt-6 mb-6 bg-gray-50 p-4 rounded-lg">
+              <div *ngFor="let category of orderCategories" class="text-center">
+                <div class="text-sm text-gray-700 mt-1">{{ category.name }}</div>
+                <div class="text-lg font-bold text-gray-900">{{ category.count }}</div>
+                <div class="text-xs text-gray-500">{{ category.products }}</div>
+              </div>
             </div>
-          </div>
-          
-          <!-- Bouton principal -->
-          <div class="mb-4">
             <div class="flex justify-end">
-                  <button class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-3 rounded-lg font-medium transition-colors">
-                    Générer bon de préparation
-                  </button>
+              <button class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-3 rounded-lg font-medium transition-colors">
+                Générer bon de préparation
+              </button>
             </div>
-
           </div>
-          </div>
-          <!-- Information complémentaire -->
-          <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 m-4 sm:m-6">
             <div class="flex items-start space-x-2">
-              <!-- Icône info -->
               <div class="flex-shrink-0 mt-0.5">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_118_781)">
-                        <path d="M10.0001 18.3337C14.6025 18.3337 18.3334 14.6027 18.3334 10.0003C18.3334 5.39795 14.6025 1.66699 10.0001 1.66699C5.39771 1.66699 1.66675 5.39795 1.66675 10.0003C1.66675 14.6027 5.39771 18.3337 10.0001 18.3337Z" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M10 13.3333V10" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M10 6.66699H10.0083" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_118_781">
-                        <rect width="20" height="20" fill="white"/>
-                        </clipPath>
-                        </defs>
+                  <g clip-path="url(#clip0_118_781)">
+                    <path d="M10.0001 18.3337C14.6025 18.3337 18.3334 14.6027 18.3334 10.0003C18.3334 5.39795 14.6025 1.66699 10.0001 1.66699C5.39771 1.66699 1.66675 5.39795 1.66675 10.0003C1.66675 14.6027 5.39771 18.3337 10.0001 18.3337Z" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 13.3333V10" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 6.66699H10.0083" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_118_781">
+                      <rect width="20" height="20" fill="white"/>
+                    </clipPath>
+                  </defs>
                 </svg>
-
               </div>
-              
               <div>
                 <h5 class="text-sm font-medium text-blue-800">Planification hebdomadaire</h5>
                 <p class="text-xs text-blue-600 mt-1">N'oubliez pas de valider le planning de livraison pour la semaine prochaine avant vendredi 16h.</p>
@@ -394,14 +341,12 @@ interface OrderCategory {
       font-weight: 600;
     }
     
-    /* Ensure smooth scrolling on mobile */
     @media (max-width: 640px) {
       .overflow-x-auto {
         -webkit-overflow-scrolling: touch;
       }
     }
     
-    /* Custom scrollbar for webkit browsers */
     .overflow-x-auto::-webkit-scrollbar {
       height: 6px;
     }
@@ -422,7 +367,6 @@ interface OrderCategory {
   `]
 })
 export class DashboardLogComponent {
-  // rôle forcé à 'log' pour ce composant
   role: 'log' = 'log';
 
   metricsData: MetricCard[] = [
@@ -533,6 +477,63 @@ export class DashboardLogComponent {
       products: 'produits'
     }
   ];
+
+  // Données pour le diagramme en camembert
+  stockSegments: StockSegment[] = [];
+
+  constructor() {
+    this.calculateStockSegments();
+  }
+
+  calculateStockSegments(): void {
+    const data = [
+      { label: 'En stock', value: 70, color: '#4ADE80' },
+      { label: 'Stock faible', value: 15, color: '#FBBF24' },
+      { label: 'Rupture', value: 15, color: '#FB7185' }
+    ];
+
+    const total = data.reduce((sum, item) => sum + item.value, 0);
+    let currentAngle = 0;
+
+    this.stockSegments = data.map((item) => {
+      const angle = (item.value / total) * 360;
+      const segment = {
+        ...item,
+        startAngle: currentAngle,
+        endAngle: currentAngle + angle
+      };
+      currentAngle += angle;
+      return segment;
+    });
+  }
+
+  createPieSlice(startAngle: number, endAngle: number, radius: number = 90): string {
+    const start = this.polarToCartesian(100, 100, radius, endAngle);
+    const end = this.polarToCartesian(100, 100, radius, startAngle);
+    const largeArc = endAngle - startAngle <= 180 ? 0 : 1;
+
+    return [
+      `M 100 100`,
+      `L ${start.x} ${start.y}`,
+      `A ${radius} ${radius} 0 ${largeArc} 0 ${end.x} ${end.y}`,
+      'Z'
+    ].join(' ');
+  }
+
+  polarToCartesian(centerX: number, centerY: number, radius: number, angleInDegrees: number): { x: number; y: number } {
+    const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180;
+    return {
+      x: centerX + radius * Math.cos(angleInRadians),
+      y: centerY + radius * Math.sin(angleInRadians)
+    };
+  }
+
+  getLabelPosition(startAngle: number, endAngle: number): { x: number; y: number } {
+    const midAngle = (startAngle + endAngle) / 2;
+    // Rayon du camembert = 90 → labels à +5px
+    const radius = 45;
+    return this.polarToCartesian(100, 100, radius, midAngle);
+  }
 
   getStatusClass(color: string): string {
     const classes = {

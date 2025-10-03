@@ -73,34 +73,33 @@ interface PartnerCompany {
       <!-- Charts and Tables Row -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6 lg:mb-2">
         <!-- Sales Evolution Chart with Chart.js -->
-        <div class="lg:col-span-2 bg-white rounded-lg p-6 shadow-sm ">
-          <h3 class="text-lg font-semibold text-gray-900 mb-6 pb-2  border-b border-gray-200">Évolution des ventes</h3>
-          <div class="relative h-80">
+        <div class="lg:col-span-2 bg-white rounded-lg py-6 shadow-sm ">
+          <h3 class="text-lg font-semibold text-gray-900 mb-6 pb-2 px-6  border-b border-gray-200">Évolution des ventes</h3>
+          <div class="relative 80">
             <canvas #salesChart class="w-full h-full"></canvas>
           </div>
         </div>
 
         <!-- Recent Prospects -->
-        <div class="lg:col-span-1 bg-white rounded-lg p-6 border border-gray-200 shadow-sm">
-          <div class="flex items-center justify-between mb-6 pb-2 relative">
+        <div class="lg:col-span-1 bg-white rounded-lg py-6 border border-gray-200 shadow-sm">
+          <div class="flex items-center justify-between mb-6 pb-2 px-6 relative">
             <h3 class="text-lg font-semibold text-gray-900">Prospects récents</h3>
             <span class="absolute bottom-0 left-0 w-full h-px bg-gray-200"></span>
           </div>
           
-          <div class="space-y-4">
+          <div class="space-y-4 px-6">
             <div *ngFor="let prospect of recentProspects" class=" border border-gray-200 rounded-lg p-4">
               <div class="flex items-start justify-between">
                 <div class="flex-1 min-w-0">
                   <div class="font-medium text-gray-900 text-sm mb-1">{{ prospect.company }}</div>
                   <div class="text-xs text-gray-500 mb-2">Contact: {{ prospect.contact }}</div>
-                  <div class="">
+                  <div class="flex items-center space-x-2 w-full ">
                     <span 
                       class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full"
                       [ngClass]="getStatusClass(prospect.statusColor)"
                     >
                       {{ prospect.status }}
                     </span>
-                    &nbsp;
                     <span class="text-xs text-gray-500 justify-end">{{ prospect.date }}</span>
                   </div>
                 </div>
@@ -123,113 +122,118 @@ interface PartnerCompany {
         </div>
       </div>
 
-      <!-- Partner Companies Table - Mobile Optimized -->
-      <div class="bg-white rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
-        <div class="p-4 sm:p-6 border-b border-gray-200">
-          <h2 class="text-lg sm:text-xl font-semibold text-gray-900">Entreprises partenaires</h2>
-        </div>
-        
-        <!-- Desktop Table View -->
-        <div class="hidden lg:block overflow-x-auto">
-          <table class="w-full">
-            <thead class="bg-gray-50">
-              <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Entreprise</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Salariés inscrits</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Commandes</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Montant total</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              <tr *ngFor="let company of partnerCompanies" class="hover:bg-gray-50">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {{ company.name }}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ company.registeredEmployees }}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ company.orders }}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                  {{ company.totalAmount }}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span 
-                    class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full"
-                    [ngClass]="{
-                      'bg-green-100 text-green-800': company.status === 'Active',
-                      'bg-yellow-100 text-yellow-800': company.status === 'En attente'
-                    }"
-                  >
-                    {{ company.status }}
-                  </span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                  <button class="text-gray-600 hover:text-gray-900 px-3 py-1 border border-gray-300 rounded text-xs transition-colors">
-                    Détails
-                  </button>
-                  <button class="bg-blue-950 hover:bg-blue-800 text-white px-3 py-1 rounded text-xs transition-colors">
-                    Gérer
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <!-- Partner Companies Table -->
+<div class="bg-white rounded-lg border border-gray-200 shadow-sm">
+  <!-- Header -->
+  <div class="p-4 sm:p-6 border-b border-gray-200 py-4">
+    <h2 class="text-lg sm:text-xl font-semibold text-gray-900  ">Entreprises partenaires</h2>
+  </div>
+  
+  <!-- Table Container -->
+  <div class="p-2 sm:p-8 shadow-md">
+    <!-- Desktop Table View -->
+    <div class="hidden lg:block overflow-x-auto border border-gray-200 rounded-lg shadow-md">
+      <table class="w-full rounded-lg border border-gray-200 shadow-md overflow-hidden">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Entreprise</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Salariés inscrits</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Commandes</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Montant total</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr *ngFor="let company of partnerCompanies" class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+              {{ company.name }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              {{ company.registeredEmployees }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              {{ company.orders }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+              {{ company.totalAmount }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span 
+                class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full"
+                [ngClass]="{
+                  'bg-green-100 text-green-800': company.status === 'Active',
+                  'bg-yellow-100 text-yellow-800': company.status === 'En attente'
+                }"
+              >
+                {{ company.status }}
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+              <button class="text-gray-600 hover:text-gray-900 px-3 py-1 border border-gray-300 rounded text-xs transition-colors">
+                Détails
+              </button>
+              <button class="bg-blue-950 hover:bg-blue-800 text-white px-3 py-1 rounded text-xs transition-colors">
+                Gérer
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-        <!-- Mobile Card View -->
-        <div class="lg:hidden divide-y divide-gray-200">
-          <div *ngFor="let company of partnerCompanies" class="p-4 sm:p-6 hover:bg-gray-50 transition-colors">
-            <div class="flex flex-col space-y-3">
-              <!-- Company Header -->
-              <div class="flex items-start justify-between">
-                <div class="flex-1 min-w-0">
-                  <h4 class="text-sm font-medium text-gray-900 truncate">{{ company.name }}</h4>
-                  <div class="mt-1">
-                    <span 
-                      class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full"
-                      [ngClass]="{
-                        'bg-green-100 text-green-800': company.status === 'Active',
-                        'bg-yellow-100 text-yellow-800': company.status === 'En attente'
-                      }"
-                    >
-                      {{ company.status }}
-                    </span>
-                  </div>
-                </div>
-                <div class="text-right">
-                  <div class="text-sm font-semibold text-gray-900">{{ company.totalAmount }}</div>
-                </div>
-              </div>
-
-              <!-- Company Stats -->
-              <div class="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <span class="text-gray-500">Salariés:</span>
-                  <span class="ml-1 font-medium text-gray-900">{{ company.registeredEmployees }}</span>
-                </div>
-                <div>
-                  <span class="text-gray-500">Commandes:</span>
-                  <span class="ml-1 font-medium text-gray-900">{{ company.orders }}</span>
-                </div>
-              </div>
-
-              <!-- Action Buttons -->
-              <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2">
-                <button class="flex-1 text-gray-600 hover:text-gray-900 px-3 py-2 border border-gray-300 rounded text-xs font-medium transition-colors">
-                  Détails
-                </button>
-                <button class="flex-1 bg-blue-950 hover:bg-blue-800 text-white px-3 py-2 rounded text-xs font-medium transition-colors">
-                  Gérer
-                </button>
+    <!-- Mobile Card View -->
+    <div class="lg:hidden divide-y divide-gray-200">
+      <div *ngFor="let company of partnerCompanies" class="p-4 sm:p-6 hover:bg-gray-50 transition-colors border border-gray-200 rounded-lg shadow-md mb-2">
+        <div class="flex flex-col space-y-3">
+          <!-- Company Header -->
+          <div class="flex items-start justify-between">
+            <div class="flex-1 min-w-0">
+              <h4 class="text-sm font-medium text-gray-900 truncate">{{ company.name }}</h4>
+              <div class="mt-1">
+                <span 
+                  class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full"
+                  [ngClass]="{
+                    'bg-green-100 text-green-800': company.status === 'Active',
+                    'bg-yellow-100 text-yellow-800': company.status === 'En attente'
+                  }"
+                >
+                  {{ company.status }}
+                </span>
               </div>
             </div>
+            <div class="text-right">
+              <div class="text-sm font-semibold text-gray-900">{{ company.totalAmount }}</div>
+            </div>
+          </div>
+
+          <!-- Company Stats -->
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <span class="text-gray-500">Salariés:</span>
+              <span class="ml-1 font-medium text-gray-900">{{ company.registeredEmployees }}</span>
+            </div>
+            <div>
+              <span class="text-gray-500">Commandes:</span>
+              <span class="ml-1 font-medium text-gray-900">{{ company.orders }}</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2">
+            <button class="flex-1 text-gray-600 hover:text-gray-900 px-3 py-2 border border-gray-300 rounded text-xs font-medium transition-colors">
+              Détails
+            </button>
+            <button class="flex-1 bg-blue-950 hover:bg-blue-800 text-white px-3 py-2 rounded text-xs font-medium transition-colors">
+              Gérer
+            </button>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
 
     </app-main-layout>
   `,
